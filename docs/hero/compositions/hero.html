@@ -20,22 +20,58 @@
       src: url("assets/fonts/geist-mono-500.woff2") format("woff2");
       font-weight: 500;
     }
+    /* GEX design system, dark theme tokens (gex-design-system/tokens.css, .dark). Use the vars, never loose hex. */
     #root {
+      --brand-blue: #1e6fd9;
+      --brand-cyan: #38bdf8;
+      --accent-ink: #7fc3ef;
+      --hero-gradient: linear-gradient(180deg, #030a1a 0%, #07204a 34%, #0a2352 52%, #040c1c 80%, #000000 100%);
+      --hero-glow: radial-gradient(55% 45% at 50% 0%, rgba(56, 196, 242, 0.16), transparent 70%);
+      --hero-text: #ffffff;
+      --hero-text-muted: rgba(255, 255, 255, 0.78);
+      --hero-glass: rgba(255, 255, 255, 0.07);
+      --hero-glass-border: rgba(255, 255, 255, 0.16);
+      --surface-page: #000000;
+      --surface-card: #131417;
+      --surface-card-2: #18191d;
+      --surface-card-3: #1b1c20;
+      --border-card: #26272d;
+      --border-strong: #2e2f36;
+      --text-primary: #f4f4f5;
+      --text-strong: #ffffff;
+      --text-secondary: #a1a1aa;
+      --positive: #34d399;
+      --positive-strong: #4ade80;
+      --warning: #fcd34d;
+      --cat-1: var(--brand-blue);
+      --cat-2: var(--brand-cyan);
+      --cat-3: var(--positive);
+      --radius-card: 22px;
+      --radius-kpi: 18px;
+      --radius-tile-xl: 14px;
+      --radius-control: 10px;
+      --radius-pill: 999px;
+      --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.06), 0 16px 40px -28px rgba(0, 0, 0, 0.25);
+      --shadow-kpi: 0 18px 40px -26px rgba(0, 0, 0, 0.55);
+      --font-ui: "Geist", system-ui, sans-serif;
+      --font-mono: "Geist Mono", ui-monospace, monospace;
+
       position: absolute;
       inset: 0;
       overflow: hidden;
-      background: var(--color-ground, #000000);
-      color: var(--color-ink, #f4f4f5);
-      font-family: "Geist", sans-serif;
+      background: var(--surface-page);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
       font-variant-numeric: tabular-nums;
     }
-    /* Radial grounds only: full-frame linear gradients band in compression. */
+    /* Signature navy band at the top dying into page black, with the cyan glow over it. */
     #hero-glow {
       position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 55% at 62% -8%, rgba(56, 189, 248, 0.2), transparent 70%),
-        radial-gradient(ellipse 95% 75% at 50% -12%, var(--color-navy, #0a2352), transparent 72%);
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 760px;
+      background: var(--hero-glow), var(--hero-gradient);
     }
     #hero-bar {
       position: absolute;
@@ -45,9 +81,10 @@
       align-items: center;
       gap: 16px;
       padding: 12px 22px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-pill);
+      background: var(--hero-glass);
+      border: 1px solid var(--hero-glass-border);
+      backdrop-filter: blur(12px);
     }
     #hero-bar img {
       height: 32px;
@@ -55,16 +92,16 @@
     }
     #hero-bar .divider {
       width: 1px;
-      height: 22px;
+      height: 26px;
       background: rgba(255, 255, 255, 0.28);
     }
     #hero-bar .name {
       font-size: 25px;
       font-weight: 600;
-      letter-spacing: -0.01em;
+      color: var(--hero-text);
     }
     .mono {
-      font-family: "Geist Mono", monospace;
+      font-family: var(--font-mono);
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -74,10 +111,11 @@
       left: 120px;
       top: 300px;
       transform-origin: 0 0;
+      color: var(--hero-text);
     }
     #hero-eyebrow {
       font-size: 26px;
-      color: rgba(255, 255, 255, 0.78);
+      color: var(--hero-text-muted);
       margin-bottom: 26px;
     }
     #hero-title h1 {
@@ -90,25 +128,37 @@
       display: inline-block;
     }
     #hero-title .accent {
-      color: var(--color-cyan, #38bdf8);
+      color: var(--brand-cyan);
     }
+    /* Sources are categories: cat-1 Web, cat-2 API, cat-3 Lake, the same in the README SVGs. */
     .source {
       position: absolute;
       left: 120px;
-      width: 400px;
+      width: 450px;
       height: 120px;
       display: flex;
       align-items: center;
       gap: 20px;
       padding: 0 26px;
-      border-radius: 18px;
-      background: #131417;
-      border: 1px solid #26272d;
+      border-radius: var(--radius-kpi);
+      background: var(--surface-card);
+      border: 1px solid var(--border-card);
+      box-shadow: var(--shadow-kpi);
+    }
+    #hero-src-web {
+      --cat: var(--cat-1);
+    }
+    #hero-src-api {
+      --cat: var(--cat-2);
+    }
+    #hero-src-lake {
+      --cat: var(--cat-3);
     }
     .source .chip {
       width: 56px;
       height: 56px;
-      border-radius: 12px;
+      border-radius: var(--radius-control);
+      background: color-mix(in oklab, var(--cat) 13%, var(--surface-card));
       display: grid;
       place-items: center;
       flex: none;
@@ -117,6 +167,7 @@
       width: 28px;
       height: 28px;
       fill: none;
+      stroke: var(--cat);
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -128,8 +179,7 @@
     }
     .source .sub {
       font-size: 25px;
-      letter-spacing: 0.03em;
-      color: #a1a1aa;
+      color: var(--text-secondary);
       margin-top: 6px;
     }
     #hero-wires {
@@ -142,59 +192,62 @@
       top: 330px;
       width: 620px;
       height: 440px;
-      border-radius: 22px;
-      background: #131417;
-      border: 1px solid #26272d;
+      border-radius: var(--radius-card);
+      background: var(--surface-card);
+      border: 1px solid var(--border-card);
+      box-shadow: var(--shadow-card);
       overflow: hidden;
     }
     #hero-json .head {
-      height: 52px;
+      height: 56px;
       display: flex;
       align-items: center;
       padding: 0 24px;
-      border-bottom: 1px solid #26272d;
-      font-family: "Geist Mono", monospace;
+      border-bottom: 1px solid var(--border-strong);
+      background: var(--surface-card-2);
       font-size: 25px;
-      color: #a1a1aa;
+      font-weight: 500;
+      color: var(--text-secondary);
     }
     #hero-json pre {
       padding: 20px 24px;
-      font-family: "Geist Mono", monospace;
+      font-family: var(--font-mono);
       font-size: 25px;
       line-height: 1.5;
-      color: #f4f4f5;
+      color: var(--text-primary);
     }
     #hero-json pre span.line {
       display: block;
     }
     #hero-json .k {
-      color: #7fc3ef;
+      color: var(--accent-ink);
     }
     #hero-json .s {
-      color: #e4e4e7;
+      color: var(--text-primary);
     }
     #hero-json .p {
-      color: #a1a1aa;
+      color: var(--text-secondary);
     }
     #hero-json .n {
-      color: #ffffff;
+      color: var(--text-strong);
     }
     .panel {
       position: absolute;
       left: 1440px;
       width: 360px;
-      border-radius: 18px;
-      background: #131417;
-      border: 1px solid #26272d;
+      background: var(--surface-card);
+      border: 1px solid var(--border-card);
       padding: 22px 24px;
     }
     .panel .eyebrow {
       font-size: 25px;
-      color: #a1a1aa;
+      color: var(--text-secondary);
     }
     #hero-net {
       top: 330px;
       height: 186px;
+      border-radius: var(--radius-kpi);
+      box-shadow: var(--shadow-kpi);
     }
     #hero-net-value {
       font-size: 58px;
@@ -204,12 +257,14 @@
     }
     #hero-net-note {
       font-size: 25px;
-      color: #4ade80;
+      color: var(--positive-strong);
       margin-top: 4px;
     }
     #hero-diff {
       top: 536px;
       height: 234px;
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
     }
     .row {
       margin-top: 18px;
@@ -221,13 +276,13 @@
       font-weight: 500;
     }
     .row .top .count {
-      color: #a1a1aa;
+      color: var(--text-secondary);
     }
     .track {
       position: relative;
       height: 10px;
-      border-radius: 999px;
-      background: #1b1c20;
+      border-radius: var(--radius-pill);
+      background: var(--surface-card-3);
       margin-top: 10px;
       overflow: hidden;
     }
@@ -236,17 +291,24 @@
       left: 0;
       top: 0;
       bottom: 0;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
+    }
+    /* Color carries meaning: green = equal to the panel, amber = divergent (attention, not an error). */
+    .fill.equal {
+      background: var(--positive);
+    }
+    .fill.divergent {
+      background: var(--warning);
     }
     #hero-tagline {
       position: absolute;
       left: 120px;
       top: 830px;
       font-size: 25px;
-      color: #a1a1aa;
+      color: var(--text-secondary);
     }
     #hero-tagline b {
-      color: var(--color-cyan, #38bdf8);
+      color: var(--accent-ink);
       font-weight: 500;
     }
   </style>
@@ -273,24 +335,24 @@
     <svg id="hero-wires" viewBox="0 0 1920 960" data-layout-ignore>
       <defs>
         <!-- userSpaceOnUse: a straight horizontal wire has a zero-height bbox, which kills a bbox gradient. -->
-        <linearGradient id="hero-wire-grad" gradientUnits="userSpaceOnUse" x1="520" y1="0" x2="760" y2="0">
-          <stop offset="0" stop-color="#2e2f36" />
-          <stop offset="1" stop-color="#1e6fd9" />
+        <linearGradient id="hero-wire-grad" gradientUnits="userSpaceOnUse" x1="570" y1="0" x2="760" y2="0">
+          <stop offset="0" style="stop-color: var(--border-strong)" />
+          <stop offset="1" style="stop-color: var(--brand-blue)" />
         </linearGradient>
       </defs>
-      <path id="hero-w1" class="wire" d="M520 390 C 640 390, 640 500, 760 500" />
-      <path id="hero-w2" class="wire" d="M520 538 C 640 538, 640 538, 760 538" />
-      <path id="hero-w3" class="wire" d="M520 686 C 640 686, 640 576, 760 576" />
-      <path id="hero-p1" class="packet" d="M520 390 C 640 390, 640 500, 760 500" />
-      <path id="hero-p2" class="packet" d="M520 538 C 640 538, 640 538, 760 538" />
-      <path id="hero-p3" class="packet" d="M520 686 C 640 686, 640 576, 760 576" />
+      <path id="hero-w1" class="wire" d="M570 390 C 665 390, 665 500, 760 500" />
+      <path id="hero-w2" class="wire" d="M570 538 C 665 538, 665 538, 760 538" />
+      <path id="hero-w3" class="wire" d="M570 686 C 665 686, 665 576, 760 576" />
+      <path id="hero-p1" class="packet" d="M570 390 C 665 390, 665 500, 760 500" />
+      <path id="hero-p2" class="packet" d="M570 538 C 665 538, 665 538, 760 538" />
+      <path id="hero-p3" class="packet" d="M570 686 C 665 686, 665 576, 760 576" />
       <path id="hero-w4" class="wire" d="M1380 420 L 1440 408" />
       <path id="hero-w5" class="wire" d="M1380 640 L 1440 652" />
     </svg>
 
     <div id="hero-src-web" class="source" style="top: 330px">
-      <div class="chip" style="background: rgba(30, 111, 217, 0.18)">
-        <svg viewBox="0 0 24 24" stroke="#60a5fa">
+      <div class="chip">
+        <svg viewBox="0 0 24 24">
           <rect x="2" y="3" width="20" height="14" rx="2" />
           <path d="M8 21h8M12 17v4" />
         </svg>
@@ -301,8 +363,8 @@
       </div>
     </div>
     <div id="hero-src-api" class="source" style="top: 478px">
-      <div class="chip" style="background: rgba(56, 189, 248, 0.16)">
-        <svg viewBox="0 0 24 24" stroke="#38bdf8">
+      <div class="chip">
+        <svg viewBox="0 0 24 24">
           <path
             d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5a2 2 0 0 0 2 2h1M16 21h1a2 2 0 0 0 2-2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"
           />
@@ -314,8 +376,8 @@
       </div>
     </div>
     <div id="hero-src-lake" class="source" style="top: 626px">
-      <div class="chip" style="background: rgba(52, 211, 153, 0.15)">
-        <svg viewBox="0 0 24 24" stroke="#34d399">
+      <div class="chip">
+        <svg viewBox="0 0 24 24">
           <ellipse cx="12" cy="5" rx="9" ry="3" />
           <path d="M3 5v14a9 3 0 0 0 18 0V5M3 12a9 3 0 0 0 18 0" />
         </svg>
@@ -340,14 +402,14 @@
     <div id="hero-diff" class="panel">
       <div class="eyebrow mono">• Diff vs Painel</div>
       <div class="row">
-        <div class="top"><span>API</span><span class="count" id="hero-api-count">5/5 iguais</span></div>
-        <div class="track"><div id="hero-api-fill" class="fill" style="background: #34d399; width: 100%"></div></div>
+        <div class="top"><span>API</span><span class="count" id="hero-api-count">5/5 Iguais</span></div>
+        <div class="track"><div id="hero-api-fill" class="fill equal" style="width: 100%"></div></div>
       </div>
       <div class="row">
-        <div class="top"><span>Lake</span><span class="count" id="hero-lake-count">3/5 iguais</span></div>
+        <div class="top"><span>Lake</span><span class="count" id="hero-lake-count">3/5 Iguais</span></div>
         <div class="track">
-          <div id="hero-lake-diff" class="fill" style="background: #fb923c; width: 100%"></div>
-          <div id="hero-lake-fill" class="fill" style="background: #34d399; width: 60%"></div>
+          <div id="hero-lake-diff" class="fill divergent" style="width: 100%"></div>
+          <div id="hero-lake-fill" class="fill equal" style="width: 60%"></div>
         </div>
       </div>
     </div>
@@ -427,7 +489,7 @@
         const len = p.getTotalLength() || 260;
         Object.assign(p.style, {
           fill: "none",
-          stroke: "#38bdf8",
+          stroke: "var(--brand-cyan)",
           strokeWidth: 5,
           strokeLinecap: "round",
           strokeDasharray: "36 " + (len + 60),
@@ -460,7 +522,7 @@
       // Wires to the right column
       ["#hero-w4", "#hero-w5"].forEach((id, i) => {
         const len = +document.querySelector(id).dataset.len;
-        document.querySelector(id).style.stroke = "#1e6fd9";
+        document.querySelector(id).style.stroke = "var(--brand-blue)";
         tl.fromTo(
           id,
           { strokeDashoffset: len + 10 },
