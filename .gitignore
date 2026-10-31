@@ -1,0 +1,13 @@
+# Secrets: logins, API keys and per-account BuyGoods tokens
+.env
+credentials/
+
+# Daily outputs: raw panel exports carry customer PII
+exports/
+*.xls
+*.xlsx
+*.part
+
+__pycache__/
+.DS_Store
+node_modules/

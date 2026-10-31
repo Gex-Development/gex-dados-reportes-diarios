@@ -1,0 +1,21 @@
+{
+  "name": "gex-dados-reportes-diarios",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Daily gateway reports (BuyGoods, PagAmerican)",
+  "scripts": {
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "lint-staged": {
+    "*.{md,json,yml,yaml,mjs,js}": "prettier --write"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.9.10"
+  }
+}

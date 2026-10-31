@@ -1,0 +1,4 @@
+exports/
+credentials/
+node_modules/
+package-lock.json
