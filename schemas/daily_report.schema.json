@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daily Gateway Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["gateway", "report_date", "currency", "source", "contas"],
+  "properties": {
+    "gateway": {
+      "enum": ["Buygoods", "Pagamerican"]
+    },
+    "report_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "currency": {
+      "const": "USD"
+    },
+    "source": {
+      "enum": ["web", "api", "lake"],
+      "description": "web = export do painel; api = /transactions + /orders; lake = canônico silver no Athena. Mesmos campos nas três fontes."
+    },
+    "contas": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/account"
+      }
+    }
+  },
+  "$defs": {
+    "account": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "account_name",
+        "gross_sales",
+        "shipping_and_handling",
+        "commissions",
+        "refunds",
+        "chargebacks",
+        "commission_voids",
+        "affiliate_epo",
+        "taxes",
+        "aov",
+        "epo",
+        "net_sales"
+      ],
+      "properties": {
+        "account_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gross_sales": { "type": "number" },
+        "shipping_and_handling": { "type": "number" },
+        "commissions": { "type": "number" },
+        "refunds": { "type": "number" },
+        "chargebacks": { "type": "number" },
+        "commission_voids": { "type": "number" },
+        "affiliate_epo": { "type": "number" },
+        "taxes": { "type": "number" },
+        "aov": { "type": "number" },
+        "epo": { "type": "number" },
+        "net_sales": { "type": "number" }
+      }
+    }
+  }
+}
