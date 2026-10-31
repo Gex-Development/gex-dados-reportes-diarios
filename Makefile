@@ -1,10 +1,10 @@
 UVX ?= uvx
 PYTHON_CMD = $(UVX) --with playwright --with python-dotenv --with loguru --with xlrd --with openpyxl --with jsonschema --with requests --with boto3 -- python
 
-.PHONY: help test lint buygoods buygoods-api buygoods-lake pagamerican pagamerican-api pagamerican-lake diff
+.PHONY: help test lint buygoods buygoods-api buygoods-lake pagamerican pagamerican-api pagamerican-lake diff painel
 
 help:
-	@printf '%s\n' 'Targets:' '  make test           Run unit tests' '  make lint           Ruff lint/format check and prettier check' '  make buygoods       Run browser-based BuyGoods export for yesterday' '  make buygoods-api   Build yesterday'"'"'s BuyGoods JSON from the API' '  make buygoods-lake  Build yesterday'"'"'s BuyGoods JSON from the Athena lake' '  make pagamerican    Download yesterday'"'"'s PagAmerican Excel report (HEADED=1 for first login)' '  make pagamerican-api Build yesterday'"'"'s PagAmerican JSON from the Data API' '  make pagamerican-lake Build yesterday'"'"'s PagAmerican JSON from the Athena lake' '  make diff GATEWAY=buygoods|pagamerican  Compare api/lake JSONs against web (AI + dashboard)'
+	@printf '%s\n' 'Targets:' '  make test           Run unit tests' '  make lint           Ruff lint/format check and prettier check' '  make buygoods       Run browser-based BuyGoods export for yesterday' '  make buygoods-api   Build yesterday'"'"'s BuyGoods JSON from the API' '  make buygoods-lake  Build yesterday'"'"'s BuyGoods JSON from the Athena lake' '  make pagamerican    Download yesterday'"'"'s PagAmerican Excel report (HEADED=1 for first login)' '  make pagamerican-api Build yesterday'"'"'s PagAmerican JSON from the Data API' '  make pagamerican-lake Build yesterday'"'"'s PagAmerican JSON from the Athena lake' '  make diff GATEWAY=buygoods|pagamerican  Compare api/lake JSONs against web (AI + dashboard)' '  make painel         Build the panel mockup data (latest diff per gateway) and print the file to open'
 
 test:
 	PYTHONPATH=. $(PYTHON_CMD) -m unittest discover -s tests -v
@@ -34,3 +34,7 @@ pagamerican-lake:
 
 diff:
 	PYTHONPATH=. $(PYTHON_CMD) src/scripts/diff_fontes.py $(GATEWAY) $(if $(DATE),--date $(DATE)) $(if $(OUTPUT_ROOT),--output-root "$(OUTPUT_ROOT)")
+
+painel:
+	PYTHONPATH=. $(PYTHON_CMD) src/scripts/dados_painel.py $(if $(BUYGOODS_DATE),--buygoods-date $(BUYGOODS_DATE)) $(if $(PAGAMERICAN_DATE),--pagamerican-date $(PAGAMERICAN_DATE)) $(if $(OUTPUT_ROOT),--output-root "$(OUTPUT_ROOT)")
+	@printf 'Open: file://%s/mockups/painel.html\n' "$(CURDIR)"
