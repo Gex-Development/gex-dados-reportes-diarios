@@ -1,0 +1,2460 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Relatórios Diários · GEX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* GEX Design System — todos os tokens num arquivo só (exportado em 08/10/2026).
+   Claro em :root, escuro em .dark. O escuro é o tema padrão: <html class="dark">.
+   Fontes: Geist e Geist Mono, do Google Fonts:
+   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;700&display=swap" rel="stylesheet"> */
+
+      /* ===== colors ===== */
+      /* GEX Design System — color tokens.
+   Light values live in :root; dark (the default app theme, applied by next-themes) lives in .dark.
+   Semantic aliases (--surface-*, --text-*, --border-*) are what components use. */
+
+      :root {
+        /* Brand */
+        --brand-blue: #1e6fd9;
+        --brand-blue-deep: #0b3d86;
+        --brand-cyan: #38bdf8;
+        --brand-cyan-soft: #7fc3ef;
+        --brand-gradient-logo: linear-gradient(135deg, #38c4f2, #1552a8);
+        /* Accent text on surfaces (prototype `--accent-ink`): blue on light, soft cyan on dark — both pass WCAG AA. */
+        --accent-ink: #1a5fc0;
+
+        /* Hero (top band). Navy in both themes; light fades into the light page. */
+        --hero-gradient: linear-gradient(
+          180deg,
+          #071a3a 0%,
+          #0c2a5c 30%,
+          #1b4586 52%,
+          #5d82b4 74%,
+          #b7c5da 90%,
+          #e6eaf1 100%
+        );
+        --hero-glow: radial-gradient(55% 45% at 50% 0%, rgba(120, 190, 255, 0.22), transparent 70%);
+        --hero-text: #ffffff;
+        --hero-text-muted: rgba(255, 255, 255, 0.78);
+        --hero-glass: rgba(255, 255, 255, 0.07);
+        --hero-glass-border: rgba(255, 255, 255, 0.16);
+        /* seleção sobre o hero: no claro, pílula branca com texto escuro (o vidro translúcido sumia) */
+        --hero-glass-active: #ffffff;
+        --hero-glass-active-fg: #0b1526;
+        /* hero do dash: mesmo espaçamento do escuro e todo conteúdo sobre azul-marinho. O desbotamento até a
+	   página continua por trás do começo do conteúdo (--hero-skirt-dash), como o escuro escurece até o
+	   preto por trás dos primeiros cards */
+        --hero-gradient-dash: linear-gradient(180deg, #071a3a 0%, #0b2654 45%, #12387a 100%);
+        --hero-skirt-dash: linear-gradient(180deg, #12387a 0, var(--surface-page) 260px);
+        /* hero do hub: o texto da última linha (descrição, selos, botões) caía no azul que já clareava
+	   (2,6 a 3,6:1); aqui o desbotamento fica só nos últimos 48 px, o respiro que o hero já tem */
+        --hero-gradient-hub: linear-gradient(
+          180deg,
+          #071a3a 0%,
+          #0c2a5c 30%,
+          #1b4586 calc(100% - 48px),
+          #5d82b4 calc(100% - 30px),
+          #b7c5da calc(100% - 12px),
+          #e6eaf1 100%
+        );
+
+        /* Surfaces */
+        --surface-page: #e6eaf1;
+        --surface-card: #ffffff;
+        --surface-card-2: #f0f3f7;
+        --surface-card-3: #e9edf3;
+        --surface-active: #e8f0fc;
+        --surface-active-2: #e3edfb;
+        --surface-subtle: rgba(15, 23, 42, 0.05);
+        --surface-control: #edf0f4;
+
+        /* Borders */
+        --border-card: #d0d7e1;
+        --border-row: #e9edf3;
+        --border-strong: #c9d1dc;
+
+        /* Text */
+        --text-primary: #0b1526;
+        --text-strong: #0b1526;
+        --text-secondary: #4b5669;
+        --text-muted: #5d6879;
+        --text-faint: #b6bfcc;
+        --text-link: #1e6fd9;
+        --text-link-hover: #7fc3ef;
+
+        /* Semantic */
+        --positive: #059669;
+        --positive-strong: #047857;
+        --positive-soft: #047857;
+        --positive-bg: #dcf5ea;
+        --negative: #b91c1c;
+        --negative-strong: #be123c;
+        --negative-accent: #e11d48;
+        --negative-soft: #be123c;
+        --negative-bg: #fdecef;
+        --warning: #fcd34d;
+        --warning-bg: rgba(245, 158, 11, 0.08);
+        --warning-border: rgba(245, 158, 11, 0.35);
+        /* Warning text on warning-bg (prototype `--warning-ink`): amber-800 on light, amber-300 on dark. */
+        --warning-ink: #92400e;
+        /* Ask bar and suggestions on the hero (prototype `--ask2-*`, `.btn-ask`, `.sug`). */
+        --ask2-bg: rgba(255, 255, 255, 0.78);
+        --ask2-border: rgba(255, 255, 255, 0.9);
+        --ask2-fg: #0b1526;
+        --ask2-muted: #4b5669;
+        --ask-btn-bg: #ffffff;
+        --ask-btn-border: rgba(11, 21, 38, 0.1);
+        --sug-bg: rgba(255, 255, 255, 0.85);
+        --sug-bg-hover: #ffffff;
+        --sug-border: rgba(11, 21, 38, 0.08);
+        --sug-fg: #0b1526;
+        --sug-fg-hover: #0b1526;
+
+        /* Pills / controls */
+        /* borda de caixa de seleção, switch e campo: 3:1 contra o branco */
+        --control-border: #8792a5;
+        --pill-on-bg: #0b1526;
+        --pill-on-fg: #ffffff;
+        --shadow-rgb: 20, 40, 90;
+
+        /* Heat text helpers */
+        --heat-text-mix: #0b1526;
+        --ink-strong: #0b1526;
+      }
+
+      .dark {
+        --accent-ink: #7fc3ef;
+        --warning-ink: #fcd34d;
+        --ask2-bg: rgba(255, 255, 255, 0.14);
+        --ask2-border: rgba(255, 255, 255, 0.28);
+        --ask2-fg: #ffffff;
+        --ask2-muted: rgba(255, 255, 255, 0.78);
+        --ask-btn-bg: rgba(255, 255, 255, 0.07);
+        --ask-btn-border: rgba(255, 255, 255, 0.16);
+        --sug-bg: rgba(255, 255, 255, 0.07);
+        --sug-bg-hover: rgba(255, 255, 255, 0.14);
+        --sug-border: rgba(255, 255, 255, 0.16);
+        --sug-fg: rgba(255, 255, 255, 0.78);
+        --sug-fg-hover: #ffffff;
+        --hero-gradient: linear-gradient(180deg, #030a1a 0%, #07204a 34%, #0a2352 52%, #040c1c 80%, #000000 100%);
+        --hero-glow: radial-gradient(55% 45% at 50% 0%, rgba(56, 196, 242, 0.16), transparent 70%);
+
+        --surface-page: #000000;
+        --surface-card: #131417;
+        --surface-card-2: #18191d;
+        --surface-card-3: #1b1c20;
+        --surface-active: #14202e;
+        --surface-active-2: #1a2b47;
+        --surface-subtle: rgba(255, 255, 255, 0.05);
+        --surface-control: #202126;
+
+        --border-card: #26272d;
+        --border-row: #1b1c20;
+        --border-strong: #2e2f36;
+
+        --text-primary: #f4f4f5;
+        --text-strong: #ffffff;
+        --text-secondary: #a1a1aa;
+        --text-muted: #71717a;
+        --text-faint: #3f3f46;
+
+        --positive: #34d399;
+        --positive-strong: #4ade80;
+        --positive-soft: #86efac;
+        --positive-bg: #123526;
+        --negative: #f87171;
+        --negative-strong: #fb7185;
+        --negative-accent: #ff8fa0;
+        --negative-soft: #fda4af;
+        --negative-bg: #3a1522;
+
+        --pill-on-bg: #f4f4f5;
+        --pill-on-fg: #000000;
+        --shadow-rgb: 0, 0, 0;
+
+        --heat-text-mix: #ffffff;
+        --ink-strong: #ffffff;
+        /* tokens que o claro passou a definir diferente: o escuro fica como era */
+        --hero-glass-active: rgba(255, 255, 255, 0.16);
+        --hero-glass-active-fg: #ffffff;
+        --hero-gradient-dash: var(--hero-gradient);
+        --hero-skirt-dash: none;
+        --hero-gradient-hub: var(--hero-gradient);
+        --control-border: var(--border-card);
+      }
+
+      /* ===== typography ===== */
+      /* GEX Design System — typography tokens. Numbers are always tabular.
+   Fonts are bundled locally by @fontsource (Geist Variable / Geist Mono Variable). */
+
+      :root {
+        --font-ui: "Geist Variable", system-ui, -apple-system, sans-serif;
+
+        /* Dashboard scale */
+        --fs-eyebrow: 10px; /* mono, uppercase, letter-spacing .1em */
+        --fs-caption: 10.5px;
+        --fs-small: 11.5px;
+        --fs-table: 12px;
+        --fs-body: 12.5px;
+        --fs-label: 13px;
+        --fs-ui: 14px;
+        --fs-h2: 16px; /* section title */
+        --fs-kpi: 21px; /* KPI value */
+        --fs-kpi-lg: 22px; /* panel big number (A/B, Warnings) */
+        --fs-h1: 36px; /* hero title */
+
+        --lh-tight: 1.05;
+        --lh-snug: 1.2;
+        --lh-body: 1.5;
+
+        --ls-eyebrow: 0.1em;
+        --ls-tight: -0.01em;
+        --ls-display: -0.03em;
+
+        --fw-regular: 400;
+        --fw-medium: 500;
+        --fw-semibold: 600;
+        --fw-bold: 700;
+        --fw-heavy: 800; /* total rows */
+
+        --numeric: tabular-nums;
+      }
+
+      /* ===== spacing ===== */
+      /* GEX Design System — spacing and sizes. Values copied from the Cockpit screens, not snapped to a grid.
+   Radii (--radius-chip … --radius-pill) are Tailwind theme tokens in tailwind.css, so they also generate rounded-* utilities. */
+
+      :root {
+        --space-1: 3px;
+        --space-2: 6px;
+        --space-3: 8px;
+        --space-4: 10px;
+        --space-5: 12px;
+        --space-6: 16px;
+        --space-7: 20px;
+        --space-8: 22px;
+        --space-9: 28px;
+
+        --card-padding: 20px 22px;
+        --kpi-padding: 14px 16px 0;
+        --kpi-min-width: 190px;
+        --section-gap: 16px;
+        --table-cell-padding: 2px 3px;
+        --table-pill-padding: 2px 5px;
+        --icon-chip: 32px;
+        --icon-chip-sm: 26px;
+        --icon-size: 16px;
+        --icon-size-sm: 14px;
+        --content-max-width: 1560px;
+        --page-padding: 18px 28px;
+      }
+
+      /* ===== surfaces ===== */
+      /* GEX Design System — per-surface tokens. Same foundations everywhere; only density and brand weight change.
+   Dashboards use the base scale in typography.css / spacing.css. These add the larger scales for
+   apps, landing pages, reports and decks, plus controls, motion and focus. */
+
+      :root {
+        /* Landing page / brand pieces: same Geist 500 / -.03em, bigger size */
+        --fs-display-xl: 64px; /* landing hero */
+        --fs-display-lg: 48px; /* landing section title, deck title */
+        --fs-display-md: 32px; /* deck slide title, report H1 */
+        --fs-lead: 18px; /* landing lead paragraph */
+        --fs-body-lg: 15px; /* app body, report body */
+        --lh-display: 1;
+        --lh-lead: 1.45;
+        --lh-prose: 1.6;
+
+        /* App density (between dashboard and landing) */
+        --control-height: 36px; /* buttons, inputs */
+        --control-height-sm: 28px;
+        --control-height-lg: 44px; /* landing CTA */
+        --control-padding-x: 14px;
+        --app-gutter: 24px;
+        --landing-gutter: 32px;
+        --landing-max-width: 1120px;
+        --report-max-width: 760px;
+        --deck-width: 1280px;
+        --deck-height: 720px;
+        --deck-padding: 64px;
+
+        /* Buttons */
+        --btn-primary-bg: var(--brand-blue);
+        --btn-primary-bg-hover: #2a7be4;
+        --btn-primary-bg-active: #1a62c2;
+        --btn-primary-fg: #ffffff;
+        --btn-secondary-bg: #ffffff;
+        --btn-secondary-bg-hover: var(--surface-card-2);
+        --btn-secondary-fg: var(--text-primary);
+        --btn-ghost-fg: var(--text-secondary);
+        --btn-ghost-bg-hover: var(--surface-subtle);
+        --btn-danger-bg: var(--negative-strong);
+        --btn-danger-fg: #ffffff;
+        --btn-glass-bg: rgba(255, 255, 255, 0.12);
+        --btn-glass-border: rgba(255, 255, 255, 0.28);
+
+        /* Inputs */
+        --input-bg: #ffffff;
+        --input-border: var(--control-border);
+        --input-border-focus: var(--brand-blue);
+        --input-placeholder: var(--text-muted);
+
+        /* Focus ring (keyboard only) */
+        --focus-ring: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--brand-blue);
+
+        /* Motion: short, no bounce. Active state is shown by color, not movement. */
+        --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+        --dur-fast: 120ms;
+        --dur-base: 180ms;
+
+        /* Glass (only over --hero-gradient) */
+        --glass-bg: rgba(255, 255, 255, 0.07);
+        --glass-border: rgba(255, 255, 255, 0.16);
+        --glass-blur: 12px;
+        --glass-bg-strong: rgba(255, 255, 255, 0.14);
+        --glass-border-strong: rgba(255, 255, 255, 0.28);
+        --auth-card-radius: 26px;
+        --auth-card-blur: 16px;
+        --auth-card-shadow: 0 40px 90px -40px rgba(3, 10, 26, 0.75);
+        --alert-danger-bg: rgba(251, 113, 133, 0.12);
+        --alert-danger-border: rgba(251, 113, 133, 0.35);
+        --alert-danger-icon: #be123c;
+      }
+
+      .dark {
+        --auth-card-radius: 26px;
+        --auth-card-blur: 16px;
+        --auth-card-shadow: 0 40px 90px -40px rgba(3, 10, 26, 0.75);
+        --alert-danger-bg: rgba(251, 113, 133, 0.12);
+        --alert-danger-border: rgba(251, 113, 133, 0.35);
+        --alert-danger-icon: #fb7185;
+        --btn-secondary-bg: var(--surface-card-2);
+        --btn-secondary-bg-hover: var(--surface-control);
+        --input-bg: var(--surface-page);
+      }
+
+      /* ===== data-viz ===== */
+      /* GEX Design System — data-viz tokens.
+   Color carries meaning. Each metric family has ONE hue pair (low → high) used for sequential heat.
+   Never mix hues inside a column. Red appears only for negative margin and for ROAS below the ruler. */
+
+      :root {
+        /* KPI identity hues */
+        --kpi-revenue: #047857;
+        --kpi-orders: #1d4ed8;
+        --kpi-aov: #0e7490;
+        --kpi-cpa: #be185d;
+        --kpi-refund: #c2410c;
+        --kpi-product-cost: #6d28d9;
+        --kpi-margin: #047857;
+        --kpi-negative: #e11d48;
+
+        /* Linha que aparece só pra comparação e fica fora do total (tráfego interno) */
+        --traffic-internal: #7c3aed;
+
+        /* Chart series */
+        --chart-bar: #1e6fd9;
+        /* topo do gradiente da barra: no claro, azul firme e opaco (o azul-claro transparente sumia no branco) */
+        --chart-bar-top: #3f86dc;
+        --chart-bar-top-opacity: 1;
+        --chart-mc-line: #d4650a; /* contribution margin %, right axis */
+        --chart-aov: #1e6fd9;
+        --chart-aov-no-upsell: #047857;
+        /* faixa do Funil Agrega entre as linhas do AOV diário */
+        --chart-band-color: #1e6fd9;
+        --chart-band-top-opacity: 0.18;
+        --chart-band-bottom-opacity: 0.08;
+        /* linha vertical do dia escolhido no cross-filter */
+        --chart-selected-guide: #1a5bb8;
+        --chart-grid: #edf0f4;
+        --chart-zero: #8b95a5;
+        --chart-axis-text: #5d6879;
+        --chart-label-text: #4b5669;
+        --chart-hover-guide: #3b6fb0;
+
+        /* Funnel stage series (Order Bump → Downsell 3) */
+        --stage-1: #7c3aed;
+        --stage-2: #16a34a;
+        --stage-3: #2563eb;
+        --stage-4: #d26a06;
+        /* família da etapa no A/B: upsell e downsell */
+        --stage-up: #0d9488;
+        --stage-down: #c46200;
+        --stage-5: #db2777;
+        --stage-6: #0891b2;
+        --stage-7: #64748b;
+
+        /* Heat families: [low hue, high hue], mixed in oklab against --surface-card. */
+        /* No claro: fundo tingido e tinta escura da mesma família (texto branco no pastel sumia). */
+        --heat-lo-share: 16%;
+        --heat-hi-share: 66%;
+        --heat-ink-lo-share: 30%;
+        --heat-ink-hi-share: 35%;
+        --heat-aov-lo: #38bdf8; /* AOV, Frete médio */
+        --heat-aov-hi: #6366f1;
+        --heat-funnel-lo: #2dd4bf; /* Funil Agrega */
+        --heat-funnel-hi: #16a34a;
+        --heat-stage-lo: #60a5fa; /* 7 etapas */
+        --heat-stage-hi: #a855f7;
+        --heat-pots-lo: #fcd34d; /* Potes 1ª venda */
+        --heat-pots-hi: #f97316;
+
+        /* ROAS fixed ruler (does not change with period). Meta 1,55 (1,45 Male Enhancement). */
+        --roas-bad: #e11d48; /* ≤ 1,30 */
+        --roas-warn-lo: #f97316; /* 1,30 → */
+        --roas-warn-hi: #facc15; /* → 1,55 */
+        --roas-near: #bef264; /* 1,55 – 1,60 */
+        --roas-good-lo: #a7f3d0; /* 1,60 → */
+        --roas-good-hi: #10b981; /* → 1,80+ */
+        --roas-text-on-good: #022c1b;
+        --roas-text-on-bright: #1f1200;
+        --roas-text-on-deep: #ffffff;
+
+        /* Freight rule (ex-US must be 100%) */
+        --freight-ok: color-mix(in oklab, #10b981 22%, var(--surface-card));
+        --freight-bad: color-mix(in oklab, #f43f5e 22%, var(--surface-card));
+        --freight-ok-ink: #065f46;
+        --freight-bad-ink: #9f1239;
+
+        /* Tooltip series dots */
+        --tip-revenue: #059669;
+        --tip-orders: #1e6fd9;
+        --tip-aov: #0284c7;
+        --tip-cpa: #e11d74;
+        --tip-roas: #d4650a;
+        --tip-refund: #6366f1;
+        --tip-product-cost: #a855f7;
+        --tip-margin: #ef4444;
+      }
+
+      .dark {
+        --kpi-revenue: #34d399;
+        --kpi-orders: #60a5fa;
+        --kpi-aov: #38bdf8;
+        --kpi-cpa: #f472b6;
+        --kpi-refund: #fb923c;
+        --kpi-product-cost: #a78bfa;
+        --kpi-margin: #34d399;
+        --traffic-internal: #c4b5fd;
+        --chart-grid: #161618;
+        --chart-zero: #3f3f46;
+        --chart-axis-text: #71717a;
+        --chart-label-text: #9ca3af;
+        /* tokens que o claro passou a definir diferente: o escuro fica como era */
+        --chart-bar-top: #6cc0f2;
+        --chart-bar-top-opacity: 0.75;
+        --chart-mc-line: #f08a24;
+        --chart-aov-no-upsell: #10b981;
+        --chart-band-color: var(--brand-cyan);
+        --chart-band-top-opacity: 0.16;
+        --chart-band-bottom-opacity: 0.1;
+        --chart-selected-guide: var(--brand-cyan-soft);
+        --stage-4: #ea7a0c;
+        --stage-up: #2dd4bf;
+        --stage-down: #fbbf24;
+        --roas-good-hi: #047857;
+        --roas-text-on-good: #ffffff;
+        --freight-ok: color-mix(in oklab, #10b981 70%, var(--surface-card));
+        --freight-bad: color-mix(in oklab, #f43f5e 72%, var(--surface-card));
+        --freight-ok-ink: #ffffff;
+        --freight-bad-ink: #ffffff;
+        --tip-revenue: #10b981;
+        --tip-aov: #0ea5e9;
+        --tip-roas: #f08a24;
+        --heat-lo-share: 20%;
+        --heat-hi-share: 88%;
+        --heat-ink-lo-share: 55%;
+        --heat-ink-hi-share: 0%;
+      }
+
+      /* ===== raios, sombras e fonte ===== */
+      :root {
+        --font-ui: "Geist", "Geist Variable", system-ui, -apple-system, sans-serif;
+        --font-mono: "Geist Mono", "Geist Mono Variable", ui-monospace, Menlo, monospace;
+
+        --radius-chip: 6px; /* célula de calor */
+        --radius-tile: 8px; /* opção marcada do seletor, selo, etiqueta */
+        --radius-control: 10px; /* botão, seletor, campo, chip de ícone */
+        --radius-tile-lg: 12px; /* botão grande */
+        --radius-tile-xl: 14px; /* bloco de resumo dentro de card */
+        --radius-tooltip: 14px;
+        --radius-kpi: 18px;
+        --radius-card: 22px;
+        --radius-pill: 999px;
+
+        --shadow-card: 0 1px 2px rgba(var(--shadow-rgb), 0.06), 0 16px 40px -28px rgba(var(--shadow-rgb), 0.25);
+        --shadow-kpi: 0 18px 40px -26px rgba(var(--shadow-rgb), 0.55);
+        --shadow-tooltip: 0 24px 48px -18px rgba(var(--shadow-rgb), 0.35);
+
+        /* paleta categórica (afiliado, nicho, plataforma), nesta ordem */
+        --cat-1: var(--chart-bar);
+        --cat-2: #0e7490;
+        --cat-3: var(--positive);
+        --cat-4: var(--chart-mc-line);
+        --cat-5: var(--kpi-product-cost);
+        --cat-6: var(--kpi-cpa);
+        --cat-7: var(--stage-6);
+        --cat-8: var(--stage-7);
+      }
+      .dark {
+        --cat-2: var(--brand-cyan);
+      }
+
+      /* ===== base ===== */
+      body {
+        margin: 0;
+        background: var(--surface-page);
+        color: var(--text-primary);
+        font-family: var(--font-ui);
+        font-variant-numeric: tabular-nums;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        min-width: 320px;
+        background: var(--surface-page);
+        color: var(--text-primary);
+        font:
+          var(--fs-body)/1.4 var(--font-ui),
+          Geist,
+          sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+      button,
+      input,
+      summary {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.48;
+      }
+      ::selection {
+        background: var(--surface-active);
+        color: var(--text-strong);
+      }
+      :focus-visible {
+        outline: 0;
+        box-shadow: var(--focus-ring);
+        position: relative;
+        z-index: 8;
+      }
+      input {
+        caret-color: var(--accent-ink);
+      }
+      ::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border: 2px solid var(--surface-card);
+        border-radius: 99px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--surface-card-2);
+      }
+      .backdrop {
+        position: absolute;
+        inset: 0 0 auto;
+        height: 385px;
+        pointer-events: none;
+        background: var(--hero-glow), var(--hero-gradient);
+        z-index: -1;
+      }
+      .dark .backdrop {
+        height: 420px;
+      }
+      .page {
+        width: min(100%, var(--content-max-width));
+        margin: auto;
+        padding: 18px 28px 42px;
+        min-width: 0;
+      }
+      .top {
+        height: 43px;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        border-radius: var(--radius-pill);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 9px 0 18px;
+        color: var(--hero-text);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+      }
+      .logo {
+        height: 22px;
+        display: flex;
+        align-items: center;
+      }
+      .logo svg {
+        width: 54px;
+        height: 22px;
+      }
+      .brand i {
+        height: 18px;
+        border-left: 1px solid var(--glass-border-strong);
+      }
+      .brand strong {
+        font-size: 15px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .theme {
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--glass-border);
+        border-radius: 50%;
+        background: var(--glass-bg);
+        color: var(--hero-text);
+        display: grid;
+        place-items: center;
+        transition: background var(--dur-base) var(--ease);
+      }
+      .theme:hover,
+      .pill:hover {
+        background: var(--glass-bg-strong);
+      }
+      .theme svg,
+      .search svg,
+      .heading-icon svg,
+      .pill svg {
+        width: 15px;
+        height: 15px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .light .theme {
+        color: var(--hero-text);
+      }
+      .hero {
+        display: block;
+        padding: 20px 5px 16px;
+        color: var(--hero-text);
+      }
+      .eyebrow {
+        font:
+          500 var(--fs-eyebrow) var(--font-mono),
+          "Geist Mono",
+          monospace;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--hero-text-muted);
+      }
+      h1 {
+        font-size: var(--fs-h1);
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        margin: 6px 0 4px;
+      }
+      .hero p {
+        margin: 0;
+        color: var(--hero-text-muted);
+        font-size: 12px;
+      }
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .dropdown {
+        position: relative;
+      }
+      .pill {
+        height: 35px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        border-radius: var(--radius-pill);
+        white-space: nowrap;
+        color: var(--hero-text-muted);
+        transition: background var(--dur-base) var(--ease);
+        list-style: none;
+        cursor: pointer;
+      }
+      .pill::-webkit-details-marker {
+        display: none;
+      }
+      .pill b {
+        font-weight: 600;
+        color: var(--hero-text);
+      }
+      .pill .chevron {
+        width: 14px;
+        height: 14px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .dropdown[open] .chevron {
+        transform: rotate(180deg);
+      }
+      .dropdown[open] .pill {
+        background: var(--glass-bg-strong);
+      }
+      .menu {
+        position: absolute;
+        top: calc(100% + 7px);
+        right: 0;
+        min-width: 215px;
+        max-width: min(320px, calc(100vw - 32px));
+        z-index: 20;
+        background: var(--surface-card);
+        border: 1px solid var(--border-strong);
+        box-shadow: var(--shadow-tooltip);
+        border-radius: var(--radius-tooltip);
+        padding: 7px;
+        color: var(--text-primary);
+      }
+      .menu button,
+      .menu label {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        text-align: left;
+        border: 0;
+        border-radius: var(--radius-tile);
+        background: none;
+        color: var(--text-primary);
+        padding: 9px 10px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .menu button:hover:not(:disabled),
+      .menu label:hover {
+        background: var(--surface-control);
+      }
+      .menu .chosen {
+        background: var(--surface-active);
+        color: var(--accent-ink);
+        font-weight: 600;
+      }
+      .menu small {
+        display: block;
+        margin: 6px 10px 4px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+      .menu input {
+        accent-color: var(--brand-blue);
+      }
+      .menu .disabled-option {
+        color: var(--text-muted);
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+      .sources {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--section-gap);
+        margin: 0 0 var(--section-gap);
+      }
+      .source {
+        min-height: 125px;
+        background: var(--surface-card);
+        border: 1px solid var(--border-card);
+        border-radius: var(--radius-kpi);
+        padding: 13px 17px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-kpi);
+      }
+      .source:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 18px;
+        right: 18px;
+        height: 2px;
+        background: var(--tone);
+      }
+      .source.web {
+        --tone: var(--cat-1);
+      }
+      .source.api {
+        --tone: var(--cat-2);
+      }
+      .source.lake {
+        --tone: var(--cat-3);
+      }
+      .source-head,
+      .source-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .source-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--tone);
+      }
+      .source-head .eyebrow {
+        color: var(--text-secondary);
+        font-size: 9px;
+      }
+      .source-value {
+        font-size: 25px;
+        letter-spacing: -0.025em;
+        font-weight: 600;
+        margin: 4px 0 1px;
+      }
+      .source-foot {
+        justify-content: flex-start;
+        font-size: 11px;
+        color: var(--text-secondary);
+        flex-wrap: wrap;
+      }
+      .source-foot b {
+        color: var(--text-primary);
+      }
+      .extra {
+        padding: 2px 6px;
+        border-radius: var(--radius-chip);
+        background: var(--surface-card-3);
+        color: var(--text-secondary);
+      }
+      .source-detail {
+        font-size: 10.5px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .section {
+        min-width: 0;
+        background: var(--surface-card);
+        border: 1px solid var(--border-card);
+        border-radius: var(--radius-card);
+        padding: 17px 17px 12px;
+        box-shadow: var(--shadow-card);
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin: 0 4px 13px;
+      }
+      .section-title {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        min-width: 0;
+      }
+      .heading-icon {
+        flex: none;
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        background: var(--surface-active);
+        border-radius: var(--radius-control);
+        color: var(--accent-ink);
+      }
+      h2 {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 0 0 2px;
+      }
+      .section p {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 11.5px;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .action,
+      .search {
+        min-height: 32px;
+        border: 1px solid var(--border-card);
+        background: var(--surface-card-2);
+        border-radius: var(--radius-control);
+        padding: 6px 10px;
+        color: var(--text-primary);
+        font-size: 11px;
+        transition:
+          background var(--dur-base) var(--ease),
+          border-color var(--dur-base) var(--ease);
+      }
+      .action:hover {
+        background: var(--surface-control);
+        border-color: var(--control-border);
+      }
+      .action:active {
+        background: var(--surface-active);
+      }
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 9px;
+        color: var(--text-secondary);
+      }
+      .search input {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text-primary);
+        width: 145px;
+        min-width: 0;
+      }
+      .search input::placeholder {
+        color: var(--text-muted);
+      }
+      .search:focus-within {
+        box-shadow: var(--focus-ring);
+      }
+      .search input:focus-visible {
+        box-shadow: none;
+      }
+      .table-scroll {
+        max-height: 615px;
+        overflow: auto;
+        overscroll-behavior: contain;
+        border-radius: var(--radius-control);
+        scrollbar-color: var(--border-strong) var(--surface-card-2);
+      }
+      table {
+        width: 100%;
+        min-width: 965px;
+        border-spacing: 0;
+        border-collapse: separate;
+        table-layout: fixed;
+        font-size: 11px;
+      }
+      col.name {
+        width: 158px;
+      }
+      col.metric {
+        width: calc((100% - 158px) / 9);
+      }
+      thead {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+        background: var(--surface-card-2);
+      }
+      th,
+      td {
+        font-variant-numeric: tabular-nums;
+      }
+      thead .group th {
+        height: 28px;
+        color: var(--accent-ink);
+        font:
+          500 9.5px var(--font-mono),
+          "Geist Mono",
+          monospace;
+        letter-spacing: 0.08em;
+        text-align: center;
+        border-top: 1px solid var(--border-strong);
+      }
+      thead .group th:first-child {
+        text-align: left;
+        padding-left: 11px;
+        color: var(--text-secondary);
+      }
+      thead .group th:not(:first-child) {
+        border-left: 1px solid var(--border-strong);
+      }
+      .sort {
+        background: none;
+        border: 0;
+        color: inherit;
+        font: inherit;
+        letter-spacing: inherit;
+        cursor: pointer;
+        padding: 6px 9px;
+        white-space: nowrap;
+      }
+      .sort:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .sort[aria-sort] {
+        color: var(--text-primary);
+      }
+      thead .sub th {
+        height: 27px;
+        font-size: 10.5px;
+        font-weight: 700;
+        text-align: right;
+        color: var(--text-secondary);
+        border-bottom: 1px solid var(--border-strong);
+        padding-right: 10px;
+      }
+      thead .sub th:nth-child(3n + 1) {
+        color: var(--accent-ink);
+      }
+      thead .sub th:nth-child(3n + 2) {
+        color: var(--cat-2);
+      }
+      thead .sub th:nth-child(3n + 3) {
+        color: var(--cat-3);
+      }
+      thead .sub th:nth-child(3n + 1),
+      tbody td.group-start,
+      tfoot td.group-start {
+        border-left: 1px solid var(--border-strong);
+      }
+      tbody th,
+      tbody td {
+        height: 43px;
+        padding: 3px 6px;
+        border-bottom: 1px solid var(--border-row);
+      }
+      tbody th {
+        text-align: left;
+        font-size: 11.5px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 10px;
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background: var(--surface-card);
+      }
+      tbody tr:nth-child(even) th,
+      tbody tr:nth-child(even):not(.details-row) {
+        background: var(--surface-card-2);
+      }
+      tbody tr:hover:not(.details-row),
+      tbody tr:hover:not(.details-row) th,
+      tbody tr.expanded,
+      tbody tr.expanded th {
+        background: var(--surface-active);
+      }
+      tbody tr.data-row {
+        cursor: pointer;
+      }
+      tbody tr.data-row:focus-visible {
+        outline: 2px solid var(--brand-blue);
+        outline-offset: -2px;
+      }
+      tbody td {
+        text-align: right;
+        white-space: nowrap;
+      }
+      tbody td .cell {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        min-height: 34px;
+        padding: 2px 5px;
+        border-radius: var(--radius-chip);
+        line-height: 1.18;
+      }
+      tbody td small {
+        font-size: 9px;
+        font-weight: 500;
+        margin-top: 2px;
+      }
+      tbody .base {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      tbody .equal {
+        color: var(--text-secondary);
+      }
+      tbody .equal small {
+        color: var(--positive-strong);
+      }
+      tbody .diff {
+        background: var(--warning-bg);
+        box-shadow: inset 0 0 0 1px var(--warning-border);
+        color: var(--text-primary);
+      }
+      tbody .diff small {
+        color: var(--warning-ink);
+      }
+      tbody .missing {
+        background: var(--negative-bg);
+        color: var(--negative-strong);
+      }
+      tbody .extra-cell {
+        color: var(--text-secondary);
+      }
+      .row-button {
+        background: none;
+        border: 0;
+        color: inherit;
+        text-align: left;
+        padding: 4px 0;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .row-button:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .row-chevron {
+        width: 14px;
+        height: 14px;
+        vertical-align: -3px;
+        margin-right: 6px;
+        fill: none;
+        stroke: var(--accent-ink);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform var(--dur-base) var(--ease);
+      }
+      .expanded .row-chevron {
+        transform: rotate(90deg);
+      }
+      .details-row td {
+        padding: 0;
+        border-bottom: 1px solid var(--border-strong);
+        white-space: normal;
+        text-align: left;
+      }
+      .details {
+        padding: 18px 22px;
+        background: var(--surface-card-2);
+      }
+      .details h3 {
+        font-size: 15px;
+        margin: 0 0 3px;
+      }
+      .details-intro {
+        margin: 0 0 13px !important;
+      }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        gap: 16px;
+      }
+      .detail-scroll {
+        overflow: auto;
+        max-height: 420px;
+        border: 1px solid var(--border-card);
+        border-radius: var(--radius-control);
+      }
+      .detail-table {
+        min-width: 570px;
+        width: 100%;
+        font-size: 11px;
+      }
+      .detail-table th,
+      .detail-table td {
+        padding: 6px 9px;
+        height: auto;
+        text-align: right;
+        border-bottom: 1px solid var(--border-row);
+      }
+      .detail-table th:first-child {
+        text-align: left;
+        position: static;
+        background: none;
+      }
+      .detail-table thead th {
+        position: sticky;
+        top: 0;
+        background: var(--surface-card-3);
+        z-index: 1;
+      }
+      .detail-table td span {
+        display: inline-block;
+        min-height: 0;
+      }
+      .notes {
+        border: 1px solid var(--border-card);
+        background: var(--surface-card);
+        border-radius: var(--radius-tile-xl);
+        padding: 12px 14px;
+      }
+      .notes h4 {
+        margin: 0 0 8px;
+        font-size: 12px;
+      }
+      .notes p {
+        font-size: 11.5px;
+        line-height: 1.55;
+        margin: 0 0 9px;
+        color: var(--text-secondary);
+      }
+      .notes p:last-child {
+        margin: 0;
+      }
+      .known {
+        color: var(--warning-ink);
+        background: var(--warning-bg);
+        border: 1px solid var(--warning-border);
+        border-radius: var(--radius-tile);
+        padding: 9px;
+        margin-bottom: 10px;
+        font-size: 11.5px;
+      }
+      .known strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+      tfoot {
+        position: sticky;
+        bottom: 0;
+        z-index: 3;
+        background: var(--surface-card-3);
+      }
+      tfoot th,
+      tfoot td {
+        height: 42px;
+        border-top: 1px solid var(--border-strong);
+        padding: 4px 7px;
+        text-align: right;
+        font-weight: 800;
+      }
+      tfoot th {
+        text-align: left;
+        position: sticky;
+        left: 0;
+        z-index: 4;
+        background: var(--surface-card-3);
+        padding-left: 10px;
+      }
+      .foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        min-height: 40px;
+        padding: 7px 8px 0;
+        color: var(--text-secondary);
+        font-size: 11px;
+      }
+      .legend {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .swatch {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        background: var(--warning-bg);
+        border: 1px solid var(--warning-border);
+        border-radius: 3px;
+        margin-right: 5px;
+      }
+      .foot strong {
+        color: var(--text-primary);
+      }
+      .empty {
+        text-align: center;
+        padding: 50px 20px;
+        color: var(--text-secondary);
+      }
+      .empty h3 {
+        color: var(--text-primary);
+        font-size: 16px;
+        margin: 0 0 6px;
+      }
+      .empty button {
+        margin-top: 14px;
+        background: var(--brand-blue);
+        color: var(--btn-primary-fg);
+        border: 0;
+        padding: 9px 16px;
+        border-radius: var(--radius-control);
+      }
+      .empty button:hover {
+        background: var(--btn-primary-bg-hover);
+      }
+      .action svg,
+      .check-icon {
+        width: 13px;
+        height: 13px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vertical-align: -2px;
+      }
+      .check-icon {
+        color: var(--positive-strong);
+        margin-right: 3px;
+      }
+      .detail-grid {
+        grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+      }
+      .detail-table {
+        min-width: 760px;
+      }
+      .detail-table td .cell {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-end;
+        white-space: nowrap;
+      }
+      .table-scroll {
+        max-height: min(615px, calc(100vh - 445px));
+      }
+      .source {
+        min-height: 145px;
+      }
+      .source-delta {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin: 2px 0 4px;
+        color: var(--text-secondary);
+        font-size: 10.5px;
+      }
+      .source-delta b {
+        padding: 2px 6px;
+        border-radius: var(--radius-chip);
+        font-weight: 600;
+      }
+      .delta-warning {
+        background: var(--warning-bg);
+        box-shadow: inset 0 0 0 1px var(--warning-border);
+        color: var(--warning-ink);
+      }
+      .delta-equal {
+        background: var(--surface-card-3);
+        color: var(--text-secondary);
+      }
+      .source.web .source-foot {
+        margin-top: 7px;
+      }
+      .source .source-detail {
+        margin-top: 3px;
+      }
+      .mobile-only,
+      .source-extras {
+        display: none;
+      }
+      .hero-negative {
+        color: var(--negative);
+        white-space: nowrap;
+      }
+      .source-metric {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+      .source-secondary {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0;
+        display: grid;
+        gap: 2px;
+      }
+      .source-secondary li {
+        display: flex;
+        gap: 7px;
+        align-items: baseline;
+        font-size: 10.5px;
+        color: var(--text-secondary);
+      }
+      .source-secondary li strong {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-left: auto;
+      }
+      .source-secondary li small {
+        color: var(--warning-ink);
+        font-size: 10px;
+      }
+      .source-secondary li small.secondary-equal {
+        color: var(--text-secondary);
+      }
+      .total-average {
+        display: block;
+        font-size: 9px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        white-space: nowrap;
+      }
+      .notes {
+        align-self: start;
+      }
+      .criteria-source {
+        --tone: var(--cat-1);
+        padding: 8px 0;
+        border-top: 1px solid var(--border-row);
+      }
+      .criteria-source.api {
+        --tone: var(--cat-2);
+      }
+      .criteria-source.lake {
+        --tone: var(--cat-3);
+      }
+      .criteria-source h5 {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 11.5px;
+        margin: 0 0 5px;
+      }
+      .criteria-source dl {
+        margin: 0;
+      }
+      .criteria-line {
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 8px;
+        padding: 3px 4px;
+        font-size: 10.5px;
+        line-height: 1.35;
+        border-radius: var(--radius-chip);
+      }
+      .criteria-line dt {
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .criteria-line dd {
+        margin: 0;
+        color: var(--text-secondary);
+      }
+      .criteria-line.warn {
+        background: var(--warning-bg);
+      }
+      .criteria-line.warn dt,
+      .criteria-line.warn dd {
+        color: var(--warning-ink);
+      }
+      @media (max-width: 1020px) {
+        .section-head {
+          align-items: start;
+          flex-direction: column;
+        }
+        .actions {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+        .backdrop {
+          height: 445px;
+        }
+        .dark .backdrop {
+          height: 475px;
+        }
+      }
+      @media (max-width: 690px) {
+        .page {
+          padding: 14px 14px 32px;
+        }
+        .top {
+          padding-left: 12px;
+        }
+        .brand {
+          gap: 8px;
+        }
+        .brand strong {
+          font-size: 12px;
+        }
+        .hero {
+          padding: 21px 2px 15px;
+        }
+        h1 {
+          font-size: 31px;
+        }
+        .hero p {
+          max-width: 35ch;
+        }
+        .filters {
+          gap: 7px;
+        }
+        .pill {
+          height: 34px;
+          padding: 0 10px;
+          font-size: 11px;
+        }
+        .sources {
+          grid-template-columns: 1fr;
+          gap: 9px;
+        }
+        .source {
+          min-height: 102px;
+          padding: 10px 15px;
+        }
+        .source-value {
+          font-size: 22px;
+          margin: 2px 0;
+        }
+        .source-detail {
+          margin-top: 2px;
+        }
+        .section {
+          padding: 14px 9px 10px;
+        }
+        .section-head {
+          margin: 0 5px 12px;
+        }
+        .search {
+          flex: 1 1 150px;
+        }
+        .search input {
+          width: 100%;
+        }
+        .foot {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .backdrop,
+        .dark .backdrop {
+          height: 465px;
+        }
+        .source-head .eyebrow {
+          font-size: 8px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+      @media (max-width: 690px) {
+        .sources {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 6px;
+          margin-bottom: 12px;
+        }
+        .source {
+          min-width: 0;
+          min-height: 85px;
+          padding: 9px 7px 8px;
+          border-radius: var(--radius-control);
+        }
+        .source:before {
+          left: 8px;
+          right: 8px;
+        }
+        .source-head .eyebrow,
+        .source-detail,
+        .source.api .source-foot,
+        .source.lake .source-foot,
+        .desktop-only {
+          display: none;
+        }
+        .mobile-only {
+          display: inline;
+        }
+        .source-name {
+          font-size: 11px;
+          gap: 5px;
+        }
+        .dot {
+          width: 6px;
+          height: 6px;
+        }
+        .source-value {
+          font-size: 15.5px;
+          letter-spacing: -0.035em;
+          margin: 5px 0 3px;
+          white-space: nowrap;
+        }
+        .source.web .source-foot {
+          margin-top: 2px;
+        }
+        .source-foot {
+          font-size: 10px;
+        }
+        .source-delta {
+          margin: 0;
+          font-size: 10px;
+        }
+        .source.api .source-foot,
+        .source.lake .source-foot {
+          display: block;
+          margin-top: 3px;
+          font-size: 10.5px;
+          line-height: 1.15;
+        }
+        .source.api .source-foot b,
+        .source.lake .source-foot b {
+          color: var(--text-secondary);
+          font-weight: 500;
+        }
+        .source-delta > span {
+          display: none;
+        }
+        .source-delta b {
+          padding: 2px 3px;
+          white-space: nowrap;
+        }
+        .delta-warning:before {
+          content: "Δ ";
+        }
+        .source-extras {
+          display: block;
+          grid-column: 1/-1;
+          font-size: 10px;
+          color: var(--text-secondary);
+          padding: 2px 4px 0;
+          white-space: normal;
+        }
+        .light .source-extras {
+          color: var(--text-primary);
+        }
+        h1 {
+          font-size: 26px;
+          max-width: 16ch;
+          line-height: 1.08;
+        }
+        .hero p {
+          font-size: 11.5px;
+          max-width: 38ch;
+        }
+        .source-metric {
+          font-size: 9px;
+          line-height: 1.2;
+          min-height: 11px;
+        }
+        .source-secondary {
+          margin: 4px 0;
+          gap: 3px;
+        }
+        .source-secondary li {
+          display: block;
+          font-size: 9px;
+          line-height: 1.2;
+        }
+        .source-secondary li strong {
+          display: block;
+          margin: 0;
+          font-size: 10px;
+        }
+        .source-secondary li small {
+          display: block;
+          font-size: 9px;
+        }
+        .source-value {
+          margin: 3px 0;
+        }
+        .criteria-line {
+          grid-template-columns: 84px minmax(0, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+    <main class="page">
+      <header class="top">
+        <div class="brand">
+          <span class="logo logo-dark"
+            ><svg
+              version="1.0"
+              xmlns="http://www.w3.org/2000/svg"
+              width="54"
+              height="22"
+              aria-hidden="true"
+              viewBox="0 0 954.000000 381.000000"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <g transform="translate(0.000000,381.000000) scale(0.100000,-0.100000)" fill="#ffffff" stroke="none">
+                <path
+                  d="M1748 3683 l-38 -4 0 -378 0 -377 -75 -17 c-222 -52 -453 -210 -583
+-400 -54 -78 -121 -227 -144 -319 l-21 -88 -378 0 -377 0 -3 -72 c-2 -40 -3
+-112 -1 -160 l4 -88 377 0 378 0 22 -87 c88 -347 372 -630 717 -715 l84 -21 0
+-377 0 -377 90 -6 c50 -3 122 -3 160 0 l70 6 0 527 0 527 -132 6 c-145 7 -221
+23 -313 66 -257 121 -419 414 -384 694 20 156 82 279 201 399 165 164 399 231
+626 177 26 -6 89 -31 140 -55 172 -83 299 -232 356 -421 l7 -23 -330 0 -331 0
+0 -160 0 -160 869 0 868 0 7 38 c8 48 8 230 0 260 l-6 22 -378 0 -378 0 -6 45
+c-19 124 -101 296 -201 423 -124 157 -329 288 -523 335 l-92 22 0 376 0 377
+-31 6 c-33 6 -186 6 -251 -1z"
+                />
+                <path
+                  d="M1315 3599 c-379 -127 -726 -402 -934 -742 -81 -132 -170 -334 -187
+-421 l-6 -36 165 0 164 0 18 48 c68 180 176 344 330 498 153 154 307 256 494
+328 l56 22 3 167 c1 92 -1 167 -5 167 -5 0 -48 -14 -98 -31z"
+                />
+                <path
+                  d="M2330 3461 l0 -168 39 -11 c65 -20 247 -117 333 -179 107 -76 258
+-227 332 -332 64 -90 157 -263 177 -330 l12 -41 169 0 c92 0 168 2 168 4 0 14
+-75 217 -103 277 -201 439 -617 799 -1074 933 l-53 15 0 -168z"
+                />
+                <path
+                  d="M7482 2861 c2 -4 323 -421 713 -925 l710 -916 203 0 c111 0 202 3
+202 6 0 3 -161 213 -357 467 -197 254 -357 464 -356 468 1 4 158 208 348 453
+190 244 345 447 345 450 0 3 -91 6 -202 6 l-203 0 -250 -323 -250 -323 -250
+323 -250 323 -203 0 c-112 0 -202 -4 -200 -9z"
+                />
+                <path
+                  d="M4350 1895 l0 -675 680 0 680 0 0 405 0 405 -275 0 -275 0 0 -140 0
+-140 135 0 135 0 0 -125 0 -125 -400 0 -400 0 0 395 0 395 540 0 540 0 0 140
+0 140 -680 0 -680 0 0 -675z"
+                />
+                <path d="M6040 2430 l0 -140 680 0 680 0 0 140 0 140 -680 0 -680 0 0 -140z" />
+                <path
+                  d="M6040 1625 l0 -405 680 0 680 0 0 140 0 140 -540 0 -540 0 0 125 0
+125 540 0 540 0 0 140 0 140 -680 0 -680 0 0 -405z"
+                />
+                <path
+                  d="M7835 1514 c-153 -197 -300 -387 -327 -420 -26 -34 -48 -65 -48 -68
+0 -3 91 -6 203 -6 l202 0 179 233 c99 127 186 250 194 272 30 87 -4 210 -86
+304 l-39 45 -278 -360z"
+                />
+                <path
+                  d="M190 1476 c0 -30 74 -224 122 -320 205 -410 552 -717 981 -865 137
+-48 127 -59 127 132 l0 162 -62 24 c-365 140 -679 454 -819 819 l-24 62 -162
+0 c-133 0 -163 -3 -163 -14z"
+                />
+                <path
+                  d="M3220 1464 c-84 -220 -188 -381 -348 -540 -134 -133 -323 -254 -494
+-319 l-48 -18 0 -163 c0 -134 3 -164 14 -164 31 0 227 75 319 122 335 172 590
+425 761 758 54 106 136 310 136 341 0 5 -74 9 -165 9 l-165 0 -10 -26z"
+                />
+              </g></svg></span
+          ><i aria-hidden="true"></i><strong>Relatórios Diários</strong>
+        </div>
+        <button id="theme" class="theme" type="button" aria-label="Ativar Tema Claro" title="Alternar tema">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.985 12.486A9 9 0 0 1 11.514 3.015 9 9 0 1 0 20.985 12.486Z" />
+          </svg>
+        </button>
+      </header>
+      <div class="hero">
+        <div>
+          <div id="eyebrow" class="eyebrow"></div>
+          <h1 id="hero-title"></h1>
+          <p id="hero-description"></p>
+        </div>
+        <div class="filters">
+          <details class="dropdown" id="gateway-menu">
+            <summary class="pill">
+              Gateway <b id="gateway-label">BuyGoods</b
+              ><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <div class="menu">
+              <button type="button" data-gateway="buygoods">BuyGoods</button
+              ><button type="button" data-gateway="pagamerican">PagAmerican</button>
+            </div>
+          </details>
+          <details class="dropdown" id="day-menu">
+            <summary class="pill">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="16" rx="2" />
+                <path d="M16 3v4M8 3v4M3 10h18" /></svg
+              >Dia <b id="day-label"></b
+              ><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <div class="menu">
+              <button id="available-day" class="chosen" type="button"></button
+              ><button class="disabled-option" type="button" disabled>Outros Dias · Sem relatório</button
+              ><small>Disponível somente para o dia carregado deste gateway.</small>
+            </div>
+          </details>
+          <details class="dropdown" id="metric-menu">
+            <summary class="pill">
+              Métricas <b id="metric-label">Gross, Refunds, Net</b
+              ><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <div class="menu" id="metric-options"></div>
+          </details>
+          <details class="dropdown" id="show-menu">
+            <summary class="pill">
+              Mostrar <b id="show-label">Todas</b
+              ><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </summary>
+            <div class="menu">
+              <button type="button" data-show="all">Todas</button
+              ><button type="button" data-show="divergent">Só Divergentes</button
+              ><button type="button" data-show="extras">Extras na Fonte</button>
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class="sources" id="sources" aria-label="Resumo por fonte"></div>
+      <section class="section" aria-labelledby="table-title">
+        <div class="section-head">
+          <div class="section-title">
+            <span class="heading-icon" aria-hidden="true"
+              ><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" /></svg
+            ></span>
+            <div>
+              <h2 id="table-title">Contas por Fonte</h2>
+              <p>Web como base · Diferença na célula da fonte · Clique na conta para ver todos os campos</p>
+            </div>
+          </div>
+          <div class="actions">
+            <label class="search"
+              ><svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" /></svg
+              ><input
+                id="search"
+                type="search"
+                placeholder="Buscar Conta"
+                aria-label="Buscar Conta"
+                autocomplete="off" /></label
+            ><button id="download" class="action" type="button" aria-label="Baixar CSV">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3v12m-4-4 4 4 4-4M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
+              </svg>
+              CSV
+            </button>
+          </div>
+        </div>
+        <div id="table-scroll" class="table-scroll">
+          <table id="accounts" aria-label="Comparação das contas nas três fontes"></table>
+          <div id="empty" class="empty" hidden>
+            <h3>Nenhuma conta encontrada</h3>
+            <p>Ajuste a busca ou os filtros para ver outras contas.</p>
+            <button id="reset" type="button">Limpar Filtros</button>
+          </div>
+        </div>
+        <footer class="foot">
+          <div class="legend">
+            <span><i class="swatch"></i>Divergente: diferença acima de $0,01</span
+            ><span
+              ><svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m20 6-11 11-5-5" /></svg> Igual
+              ao Web</span
+            ><span id="extra-note"></span>
+          </div>
+          <strong id="count"></strong>
+        </footer>
+      </section>
+    </main>
+    <script src="painel.data.js"></script>
+    <script>
+      const FIELDS = {
+        gross_sales: ["Gross", "Gross Sales"],
+        refunds: ["Refunds", "Refunds"],
+        net_sales: ["Net", "Net Sales"],
+        shipping_and_handling: ["S&H", "Shipping and Handling"],
+        commissions: ["Commissions", "Commissions"],
+        chargebacks: ["Chargebacks", "Chargebacks"],
+        commission_voids: ["Commission Voids", "Commission Voids"],
+        affiliate_epo: ["Affiliate EPO", "Affiliate EPO"],
+        taxes: ["Taxes", "Taxes"],
+        aov: ["AOV", "AOV"],
+        epo: ["EPO", "EPO"],
+      };
+      const keys = Object.keys(FIELDS),
+        sources = ["web", "api", "lake"],
+        selected = ["gross_sales", "refunds", "net_sales"];
+      let gateway = "buygoods",
+        show = "all",
+        sortField = "gross_sales",
+        descending = true,
+        expanded = null;
+      const $ = (id) => document.getElementById(id);
+      const report = () => window.REPORTS[gateway];
+      const date = (d) => d.split("-").reverse().join("/");
+      const number = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const money = (n) => (n == null ? "—" : (n < 0 ? "−" : "") + "$" + number.format(Math.abs(n)));
+      const delta = (n) => (n >= 0 ? "+" : "−") + "$" + number.format(Math.abs(n));
+      const escape = (s) =>
+        String(s).replace(
+          /[&<>"']/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+      const equal = (a, b) =>
+        Math.abs(Math.round(a * 100) - Math.round(b * 100)) <= Math.round(report().diff.tolerancia * 100);
+      const webKeys = () => Object.keys(report().sources.web);
+      const extraKeys = () =>
+        [...new Set([...Object.keys(report().sources.api), ...Object.keys(report().sources.lake)])].filter(
+          (k) => !report().sources.web[k],
+        );
+      const name = (k) => sources.map((s) => report().sources[s][k]?.account_name).find(Boolean) || k;
+      const value = (k, s, f) => report().sources[s][k]?.[f];
+      const averaged = new Set(["aov", "epo", "affiliate_epo"]);
+      const aggregate = (accounts, source, field) => {
+        const values = accounts.map((k) => value(k, source, field)).filter((v) => v != null);
+        if (!values.length) return null;
+        const sum = values.reduce((total, v) => total + v, 0);
+        return averaged.has(field) ? sum / values.length : sum;
+      };
+      const differs = (k) =>
+        sources
+          .slice(1)
+          .some((s) => !report().sources[s][k] || keys.some((f) => !equal(value(k, "web", f), value(k, s, f))));
+      function cell(k, s, f) {
+        const v = value(k, s, f),
+          w = value(k, "web", f);
+        if (v == null)
+          return (
+            '<span class="cell ' +
+            (s === "web" ? "extra-cell" : "missing") +
+            '">' +
+            (s === "web" ? "—" : "— Faltando") +
+            "</span>"
+          );
+        if (s === "web") return '<span class="cell base">' + money(v) + "</span>";
+        if (w == null) return '<span class="cell extra-cell">' + money(v) + "<small>Extra na Fonte</small></span>";
+        if (equal(v, w))
+          return (
+            '<span class="cell equal">' +
+            money(v) +
+            '<small><svg class="check-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg> Igual</small></span>'
+          );
+        return '<span class="cell diff">' + money(v) + "<small>Δ " + delta(v - w) + "</small></span>";
+      }
+      function sourceCards() {
+        const r = report();
+        const web = webKeys();
+        const extras = extraKeys();
+        const active = selected[0];
+        const base = aggregate(web, "web", active);
+        const metric = FIELDS[active][0];
+        const card = (source) => {
+          const total = aggregate(web, source, active);
+          const difference = total == null || base == null ? null : total - base;
+          const matched =
+            source === "web"
+              ? web.length
+              : web.filter((k) => r.sources[source][k] && equal(value(k, "web", active), value(k, source, active)))
+                  .length;
+          const extraAccounts = extras.filter((k) => r.sources[source][k]);
+          const extraValue = aggregate(extraAccounts, source, active);
+          const secondary = selected
+            .slice(1)
+            .map((field) => {
+              const amount = aggregate(web, source, field);
+              const reference = aggregate(web, "web", field);
+              const change = amount == null || reference == null ? null : amount - reference;
+              return (
+                "<li><span>" +
+                FIELDS[field][0] +
+                (averaged.has(field) ? " · Média das Contas" : "") +
+                "</span><strong>" +
+                money(amount) +
+                "</strong>" +
+                (source === "web"
+                  ? ""
+                  : '<small class="' +
+                    (change == null || equal(amount, reference) ? "secondary-equal" : "") +
+                    '">' +
+                    (change == null ? "—" : "Δ " + delta(change)) +
+                    "</small>") +
+                "</li>"
+              );
+            })
+            .join("");
+          const differenceLabel =
+            source === "web"
+              ? '<div class="source-foot"><span class="desktop-only">Base: ' +
+                web.length +
+                ' contas do painel</span><span class="mobile-only">' +
+                web.length +
+                " contas</span></div>"
+              : '<div class="source-delta"><span>Δ vs Web</span><b class="' +
+                (difference != null && !equal(total, base) ? "delta-warning" : "delta-equal") +
+                '">' +
+                (difference == null
+                  ? "Sem dado"
+                  : equal(total, base)
+                    ? '<span class="desktop-only">Igual ao Web</span><span class="mobile-only">Igual</span>'
+                    : delta(difference)) +
+                '</b></div><div class="source-foot"><b>' +
+                matched +
+                "/" +
+                web.length +
+                ' <span class="desktop-only">iguais em ' +
+                metric +
+                '</span><span class="mobile-only">iguais</span></b></div>';
+          return (
+            '<article class="source ' +
+            source +
+            '"><div class="source-head"><span class="source-name"><i class="dot"></i>' +
+            { web: "Web", api: "API", lake: "Lake" }[source] +
+            '</span><span class="eyebrow">• ' +
+            (source === "web" ? "Base do Painel" : "vs Web") +
+            '</span></div><div class="source-metric">' +
+            metric +
+            (averaged.has(active) ? " · Média das Contas" : "") +
+            '</div><div class="source-value">' +
+            money(total) +
+            "</div>" +
+            (secondary ? '<ul class="source-secondary">' + secondary + "</ul>" : "") +
+            differenceLabel +
+            (source === "web"
+              ? ""
+              : '<div class="source-detail">' +
+                (extraAccounts.length
+                  ? "+" + extraAccounts.length + " extras · " + metric + " " + money(extraValue)
+                  : "Sem contas extras") +
+                '</div><div class="source-detail">Mais divergentes em ' +
+                metric +
+                ": " +
+                (web.length - matched) +
+                " contas</div>") +
+            "</article>"
+          );
+        };
+        $("sources").innerHTML =
+          sources.map(card).join("") +
+          (extras.length
+            ? '<div class="source-extras">' +
+              sources
+                .slice(1)
+                .map((s) => {
+                  const list = extras.filter((k) => r.sources[s][k]);
+                  return list.length
+                    ? s.toUpperCase() +
+                        " +" +
+                        list.length +
+                        " extras · " +
+                        metric +
+                        " " +
+                        money(aggregate(list, s, active))
+                    : "";
+                })
+                .filter(Boolean)
+                .join(" · ") +
+              "</div>"
+            : "");
+        $("extra-note").textContent = extras.length
+          ? extras.length + " contas extras fora da base Web · visíveis em Extras na Fonte"
+          : "Sem contas extras fora da base Web";
+      }
+      const CRITERIA = {
+        buygoods: {
+          web: [
+            ["Dia", "GMT-4; painel Master Accounts"],
+            ["Refunds", "valor exibido no painel", ["refunds"]],
+            ["Pedidos", "contagem do painel", ["aov", "epo", "affiliate_epo"]],
+            ["Contas", "visíveis neste login"],
+          ],
+          api: [
+            ["Dia", "GMT-4; fechamento do dia"],
+            ["Refunds", "data do reembolso, sem taxa de $1", ["refunds"]],
+            ["Pedidos", "sessões; até 2 de diferença", ["aov", "epo", "affiliate_epo"]],
+            ["Contas", "inclui contas secundárias"],
+          ],
+          lake: [
+            ["Dia", "GMT-4; dados canônicos"],
+            ["Refunds", "abaixo do painel; IVA estimado", ["refunds", "taxes"]],
+            ["Pedidos", "clientes distintos", ["aov", "epo", "affiliate_epo"]],
+            ["Contas", "inclui contas secundárias"],
+            ["Commission Voids", "aproximado pelos chargebacks", ["commission_voids"]],
+            ["S&H", "frete cobrado; só informativo", ["shipping_and_handling"]],
+          ],
+        },
+        pagamerican: {
+          web: [
+            ["Dia", "UTC; abertura do checkout"],
+            ["Refunds", "dos pedidos do dia, mesmo se o evento vier depois", ["refunds"]],
+            ["Pedidos", "pelo checkout aberto no dia", ["aov", "epo", "affiliate_epo"]],
+            ["Contas", "por produto principal do pedido"],
+            ["Chargebacks", "alertas contam como chargeback", ["chargebacks"]],
+          ],
+          api: [
+            ["Dia", "UTC; abertura do checkout"],
+            ["Refunds", "mesma regra do painel", ["refunds"]],
+            ["Pedidos", "pelo checkout aberto no dia", ["aov", "epo", "affiliate_epo"]],
+            ["Contas", "por produto principal do pedido"],
+          ],
+          lake: [
+            ["Dia", "UTC; data da venda, não do checkout", ["gross_sales", "commissions", "chargebacks", "net_sales"]],
+            ["Refunds", "sem regra adicional descrita nesta fonte", ["refunds"]],
+            ["Pedidos", "pela venda no dia", ["aov", "epo", "affiliate_epo"]],
+            ["Contas", "por produto principal do pedido"],
+            ["S&H", "frete cobrado; só informativo", ["shipping_and_handling"]],
+          ],
+        },
+      };
+      function criteria(k) {
+        return sources
+          .map((s) => {
+            const lines = CRITERIA[gateway][s]
+              .map(([label, text, fields]) => {
+                const relevant =
+                  s !== "web" &&
+                  report().sources.web[k] &&
+                  report().sources[s][k] &&
+                  fields?.some((f) => !equal(value(k, "web", f), value(k, s, f)));
+                const knownDay = gateway === "pagamerican" && k === "sodapeak" && s === "lake" && label === "Dia";
+                return (
+                  '<div class="criteria-line' +
+                  (relevant || knownDay ? " warn" : "") +
+                  '"><dt>' +
+                  label +
+                  "</dt><dd>" +
+                  escape(text) +
+                  "</dd></div>"
+                );
+              })
+              .join("");
+            return (
+              '<section class="criteria-source ' +
+              s +
+              '"><h5><i class="dot"></i>' +
+              { web: "Web", api: "API", lake: "Lake" }[s] +
+              "</h5><dl>" +
+              lines +
+              "</dl></section>"
+            );
+          })
+          .join("");
+      }
+      function detail(k) {
+        const isExtra = !report().sources.web[k];
+        const known = gateway === "pagamerican" && k === "sodapeak" && report().sources.lake[k];
+        return (
+          '<div class="details"><h3>' +
+          escape(name(k)) +
+          ' · Todos os Campos</h3><p class="details-intro">' +
+          (isExtra
+            ? "Extra na Fonte: conta ausente no Web; não entra no total da base comum."
+            : "Diferenças medidas contra Web, tolerância de $0,01.") +
+          '</p><div class="detail-grid"><div class="detail-scroll"><table class="detail-table"><thead><tr><th>Campo</th><th>Web</th><th>API</th><th>Lake</th></tr></thead><tbody>' +
+          keys
+            .map(
+              (f) =>
+                "<tr><th>" +
+                FIELDS[f][1] +
+                "</th>" +
+                sources.map((s) => "<td>" + cell(k, s, f) + "</td>").join("") +
+                "</tr>",
+            )
+            .join("") +
+          '</tbody></table></div><aside class="notes">' +
+          (known
+            ? '<div class="known"><strong>Diferença Conhecida · Virada do Dia</strong>Pedido aberto antes da meia-noite e vendido depois: Web e API usam dia do checkout; Lake usa dia da venda. Divergência não equivale, por si só, a erro.</div>'
+            : "") +
+          "<h4>Como Cada Fonte Conta o Dia</h4>" +
+          criteria(k) +
+          "</aside></div></div>"
+        );
+      }
+      function table() {
+        const r = report(),
+          q = $("search").value.trim().toLocaleLowerCase("pt-BR");
+        let list = (show === "extras" ? extraKeys() : webKeys().filter((k) => show === "all" || differs(k))).filter(
+          (k) => name(k).toLocaleLowerCase("pt-BR").includes(q),
+        );
+        list.sort((a, b) => {
+          const x = value(a, "web", sortField) ?? value(a, "api", sortField) ?? value(a, "lake", sortField) ?? 0,
+            y = value(b, "web", sortField) ?? value(b, "api", sortField) ?? value(b, "lake", sortField) ?? 0;
+          return (descending ? y - x : x - y) || name(a).localeCompare(name(b), "pt-BR");
+        });
+        const common = list.filter((k) => r.sources.web[k]);
+        const totals = Object.fromEntries(
+          sources.map((s) => [s, Object.fromEntries(selected.map((f) => [f, aggregate(common, s, f)]))]),
+        );
+        const colCount = 1 + selected.length * 3;
+        $("accounts").style.minWidth = Math.max(965, 158 + selected.length * 272) + "px";
+        $("accounts").innerHTML =
+          '<colgroup><col class="name">' +
+          selected.map(() => '<col class="metric" span="3">').join("") +
+          '</colgroup><thead><tr class="group"><th rowspan="2" scope="col">CONTA</th>' +
+          selected
+            .map(
+              (f) =>
+                '<th colspan="3" scope="colgroup"><button class="sort" type="button" data-sort="' +
+                f +
+                '" aria-label="Ordenar por ' +
+                FIELDS[f][1] +
+                ' no Web" ' +
+                (sortField === f ? 'aria-sort="' + (descending ? "descending" : "ascending") + '"' : "") +
+                ">" +
+                FIELDS[f][0].toUpperCase() +
+                " " +
+                (sortField === f ? (descending ? "↓" : "↑") : "↕") +
+                "</button></th>",
+            )
+            .join("") +
+          '</tr><tr class="sub">' +
+          selected.map(() => "<th>Web</th><th>API</th><th>Lake</th>").join("") +
+          "</tr></thead><tbody>" +
+          list
+            .map(
+              (k) =>
+                '<tr class="data-row ' +
+                (expanded === k ? "expanded" : "") +
+                '" data-row="' +
+                escape(k) +
+                '" tabindex="0" aria-expanded="' +
+                (expanded === k) +
+                '"><th scope="row" title="' +
+                escape(name(k)) +
+                '"><button type="button" class="row-button" data-expand="' +
+                escape(k) +
+                '" aria-expanded="' +
+                (expanded === k) +
+                '" aria-label="' +
+                (expanded === k ? "Fechar" : "Abrir") +
+                " detalhes de " +
+                escape(name(k)) +
+                '">' +
+                '<svg class="row-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>' +
+                escape(name(k)) +
+                "</button></th>" +
+                selected
+                  .map((f) =>
+                    sources
+                      .map((s, i) => '<td class="' + (i === 0 ? "group-start" : "") + '">' + cell(k, s, f) + "</td>")
+                      .join(""),
+                  )
+                  .join("") +
+                "</tr>" +
+                (expanded === k
+                  ? '<tr class="details-row"><td colspan="' + colCount + '">' + detail(k) + "</td></tr>"
+                  : ""),
+            )
+            .join("") +
+          "</tbody><tfoot><tr><th>Total · " +
+          common.length +
+          " Web</th>" +
+          selected
+            .map((f) =>
+              sources
+                .map(
+                  (s, i) =>
+                    '<td class="' +
+                    (i === 0 ? "group-start" : "") +
+                    '">' +
+                    (common.length
+                      ? money(totals[s][f]) +
+                        (averaged.has(f) ? '<small class="total-average">Média das Contas</small>' : "")
+                      : "—") +
+                    "</td>",
+                )
+                .join(""),
+            )
+            .join("") +
+          "</tr></tfoot>";
+        $("accounts").hidden = !list.length;
+        $("empty").hidden = !!list.length;
+        $("count").textContent =
+          list.length +
+          " " +
+          (show === "extras" ? "extras" : "de " + webKeys().length + " contas Web") +
+          " · Total: " +
+          common.length +
+          " comuns visíveis";
+        $("extra-note").textContent = extraKeys().length
+          ? extraKeys().length + " extras fora dos totais da base Web"
+          : "Sem extras fora da base Web";
+      }
+      function render() {
+        const r = report();
+        $("eyebrow").textContent = "• " + r.label.toUpperCase() + " · " + date(r.day) + " · " + r.tz;
+        const web = webKeys();
+        const matching = (source) =>
+          web.filter((k) => r.sources[source][k] && keys.every((f) => equal(value(k, "web", f), value(k, source, f))))
+            .length;
+        const webNet = aggregate(web, "web", "net_sales");
+        $("hero-title").innerHTML =
+          escape(r.label) +
+          " Fechou " +
+          date(r.day).slice(0, 5) +
+          " em " +
+          (webNet < 0 ? '<span class="hero-negative">' + money(webNet) + "</span>" : money(webNet));
+        $("hero-description").textContent =
+          "API confere com o painel em " +
+          matching("api") +
+          " de " +
+          web.length +
+          " contas e o Lake em " +
+          matching("lake") +
+          ". Cada diferença aparece na célula da fonte que divergiu.";
+        $("gateway-label").textContent = r.label;
+        $("day-label").textContent = date(r.day);
+        $("available-day").textContent = date(r.day) + " · Disponível";
+        $("show-label").textContent = { all: "Todas", divergent: "Só Divergentes", extras: "Extras na Fonte" }[show];
+        $("metric-label").textContent = selected.map((f) => FIELDS[f][0]).join(", ");
+        $("metric-options").innerHTML =
+          keys
+            .map(
+              (f) =>
+                '<label><input type="checkbox" value="' +
+                f +
+                '" ' +
+                (selected.includes(f) ? "checked" : "") +
+                " " +
+                (!selected.includes(f) && selected.length >= 4 ? "disabled" : "") +
+                ">" +
+                FIELDS[f][1] +
+                "</label>",
+            )
+            .join("") + "<small>Selecione de 1 a 4 métricas.</small>";
+        document
+          .querySelectorAll("[data-gateway]")
+          .forEach((b) => b.classList.toggle("chosen", b.dataset.gateway === gateway));
+        document.querySelectorAll("[data-show]").forEach((b) => b.classList.toggle("chosen", b.dataset.show === show));
+        sourceCards();
+        table();
+      }
+      document.addEventListener("click", (e) => {
+        const gatewayButton = e.target.closest("[data-gateway]");
+        if (gatewayButton) {
+          gateway = gatewayButton.dataset.gateway;
+          expanded = null;
+          sortField = "gross_sales";
+          descending = true;
+          $("search").value = "";
+          $("gateway-menu").open = false;
+          render();
+          return;
+        }
+        const showButton = e.target.closest("[data-show]");
+        if (showButton) {
+          show = showButton.dataset.show;
+          expanded = null;
+          $("show-menu").open = false;
+          render();
+          return;
+        }
+        const sortButton = e.target.closest("[data-sort]");
+        if (sortButton) {
+          descending = sortField === sortButton.dataset.sort ? !descending : true;
+          sortField = sortButton.dataset.sort;
+          if (selected.includes(sortField)) {
+            selected.splice(selected.indexOf(sortField), 1);
+            selected.unshift(sortField);
+          }
+          render();
+          return;
+        }
+        const rowButton = e.target.closest("[data-expand]");
+        if (rowButton) {
+          expanded = expanded === rowButton.dataset.expand ? null : rowButton.dataset.expand;
+          table();
+          document.querySelector('[data-expand="' + CSS.escape(rowButton.dataset.expand) + '"]')?.focus();
+          return;
+        }
+        if (!e.target.closest(".dropdown")) document.querySelectorAll(".dropdown").forEach((d) => (d.open = false));
+      });
+      $("available-day").onclick = () => ($("day-menu").open = false);
+      $("metric-options").onchange = (e) => {
+        if (e.target.type !== "checkbox") return;
+        const f = e.target.value;
+        if (e.target.checked) {
+          if (selected.length >= 4) {
+            e.target.checked = false;
+            return;
+          }
+          selected.push(f);
+        } else {
+          if (selected.length === 1) {
+            e.target.checked = true;
+            return;
+          }
+          selected.splice(selected.indexOf(f), 1);
+        }
+        expanded = null;
+        render();
+      };
+      $("search").oninput = () => {
+        expanded = null;
+        table();
+      };
+      $("reset").onclick = () => {
+        show = "all";
+        $("search").value = "";
+        expanded = null;
+        render();
+      };
+      $("accounts").onkeydown = (e) => {
+        if ((e.key === "Enter" || e.key === " ") && e.target.matches(".data-row")) {
+          e.preventDefault();
+          expanded = expanded === e.target.dataset.row ? null : e.target.dataset.row;
+          table();
+          document.querySelector('[data-row="' + CSS.escape(expanded || e.target.dataset.row) + '"]')?.focus();
+        }
+      };
+      $("accounts").onclick = (e) => {
+        const row = e.target.closest(".data-row");
+        if (row && !e.target.closest("button")) {
+          expanded = expanded === row.dataset.row ? null : row.dataset.row;
+          table();
+        }
+      };
+      $("theme").onclick = () => {
+        const light = document.documentElement.classList.toggle("light");
+        document.documentElement.classList.toggle("dark", !light);
+        $("theme").setAttribute("aria-label", light ? "Ativar Tema Escuro" : "Ativar Tema Claro");
+        $("theme").innerHTML = light
+          ? '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>'
+          : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486A9 9 0 0 1 11.514 3.015 9 9 0 1 0 20.985 12.486Z"/></svg>';
+      };
+      $("download").onclick = () => {
+        const headings = [
+            "Conta",
+            ...selected.flatMap((f) => sources.map((s) => FIELDS[f][1] + " " + s.toUpperCase())),
+          ],
+          rows = [...document.querySelectorAll("#accounts tbody tr.data-row")].map((row) => {
+            const k = row.dataset.row;
+            return [name(k), ...selected.flatMap((f) => sources.map((s) => value(k, s, f) ?? ""))];
+          });
+        const csv = [headings, ...rows]
+          .map((row) => row.map((v) => '"' + String(v).replaceAll('"', '""') + '"').join(";"))
+          .join("\r\n");
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" }));
+        link.download = "relatorio-" + gateway + "-" + report().day + ".csv";
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      };
+      document.querySelectorAll(".dropdown").forEach((d) =>
+        d.querySelector("summary").addEventListener("click", () =>
+          document.querySelectorAll(".dropdown").forEach((other) => {
+            if (other !== d) other.open = false;
+          }),
+        ),
+      );
+      render();
+    </script>
+  </body>
+</html>
