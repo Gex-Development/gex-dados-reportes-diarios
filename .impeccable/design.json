@@ -1,0 +1,672 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T15:06:54.275Z",
+  "title": "Design System: Relatórios Diários GEX",
+  "extensions": {
+    "colorMeta": {
+      "brand-blue": {
+        "role": "primary",
+        "displayName": "brand-blue",
+        "canonical": "#1e6fd9",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 257.4)",
+          "oklch(26.4% 0.140 257.4)",
+          "oklch(37.9% 0.140 257.4)",
+          "oklch(49.3% 0.140 257.4)",
+          "oklch(60.7% 0.140 257.4)",
+          "oklch(72.1% 0.139 257.4)",
+          "oklch(83.6% 0.082 257.4)",
+          "oklch(95.0% 0.025 257.4)"
+        ]
+      },
+      "brand-cyan": {
+        "role": "secondary",
+        "displayName": "brand-cyan",
+        "canonical": "#38bdf8",
+        "tonalRamp": [
+          "oklch(15.0% 0.083 232.7)",
+          "oklch(26.4% 0.139 232.7)",
+          "oklch(37.9% 0.139 232.7)",
+          "oklch(49.3% 0.139 232.7)",
+          "oklch(60.7% 0.139 232.7)",
+          "oklch(72.1% 0.138 232.7)",
+          "oklch(83.6% 0.082 232.7)",
+          "oklch(95.0% 0.025 232.7)"
+        ]
+      },
+      "accent-ink": {
+        "role": "neutral",
+        "displayName": "accent-ink",
+        "canonical": "#7fc3ef",
+        "tonalRamp": [
+          "oklch(15.0% 0.056 238.0)",
+          "oklch(26.4% 0.093 238.0)",
+          "oklch(37.9% 0.093 238.0)",
+          "oklch(49.3% 0.093 238.0)",
+          "oklch(60.7% 0.093 238.0)",
+          "oklch(72.1% 0.093 238.0)",
+          "oklch(83.6% 0.055 238.0)",
+          "oklch(95.0% 0.017 238.0)"
+        ],
+        "lightTheme": "#1a5fc0"
+      },
+      "cat-1": {
+        "role": "primary",
+        "displayName": "cat-1",
+        "canonical": "#1e6fd9",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 257.4)",
+          "oklch(26.4% 0.140 257.4)",
+          "oklch(37.9% 0.140 257.4)",
+          "oklch(49.3% 0.140 257.4)",
+          "oklch(60.7% 0.140 257.4)",
+          "oklch(72.1% 0.139 257.4)",
+          "oklch(83.6% 0.082 257.4)",
+          "oklch(95.0% 0.025 257.4)"
+        ]
+      },
+      "cat-2": {
+        "role": "secondary",
+        "displayName": "cat-2",
+        "canonical": "#38bdf8",
+        "tonalRamp": [
+          "oklch(15.0% 0.083 232.7)",
+          "oklch(26.4% 0.139 232.7)",
+          "oklch(37.9% 0.139 232.7)",
+          "oklch(49.3% 0.139 232.7)",
+          "oklch(60.7% 0.139 232.7)",
+          "oklch(72.1% 0.138 232.7)",
+          "oklch(83.6% 0.082 232.7)",
+          "oklch(95.0% 0.025 232.7)"
+        ],
+        "lightTheme": "#0e7490"
+      },
+      "cat-3": {
+        "role": "tertiary",
+        "displayName": "cat-3",
+        "canonical": "#34d399",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 163.2)",
+          "oklch(26.4% 0.140 163.2)",
+          "oklch(37.9% 0.140 163.2)",
+          "oklch(49.3% 0.140 163.2)",
+          "oklch(60.7% 0.140 163.2)",
+          "oklch(72.1% 0.139 163.2)",
+          "oklch(83.6% 0.082 163.2)",
+          "oklch(95.0% 0.025 163.2)"
+        ],
+        "lightTheme": "#059669"
+      },
+      "positive-strong": {
+        "role": "tertiary",
+        "displayName": "positive-strong",
+        "canonical": "#4ade80",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 151.7)",
+          "oklch(26.4% 0.140 151.7)",
+          "oklch(37.9% 0.140 151.7)",
+          "oklch(49.3% 0.140 151.7)",
+          "oklch(60.7% 0.140 151.7)",
+          "oklch(72.1% 0.139 151.7)",
+          "oklch(83.6% 0.082 151.7)",
+          "oklch(95.0% 0.025 151.7)"
+        ],
+        "lightTheme": "#047857"
+      },
+      "positive-bg": {
+        "role": "neutral",
+        "displayName": "positive-bg",
+        "canonical": "#123526",
+        "tonalRamp": [
+          "oklch(15.0% 0.030 162.7)",
+          "oklch(26.4% 0.049 162.7)",
+          "oklch(37.9% 0.049 162.7)",
+          "oklch(49.3% 0.049 162.7)",
+          "oklch(60.7% 0.049 162.7)",
+          "oklch(72.1% 0.049 162.7)",
+          "oklch(83.6% 0.029 162.7)",
+          "oklch(95.0% 0.009 162.7)"
+        ],
+        "lightTheme": "#dcf5ea"
+      },
+      "warning-ink": {
+        "role": "warning",
+        "displayName": "warning-ink",
+        "canonical": "#fcd34d",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 91.6)",
+          "oklch(26.4% 0.140 91.6)",
+          "oklch(37.9% 0.140 91.6)",
+          "oklch(49.3% 0.140 91.6)",
+          "oklch(60.7% 0.140 91.6)",
+          "oklch(72.1% 0.139 91.6)",
+          "oklch(83.6% 0.082 91.6)",
+          "oklch(95.0% 0.025 91.6)"
+        ],
+        "lightTheme": "#92400e"
+      },
+      "warning-bg": {
+        "role": "warning",
+        "displayName": "warning-bg",
+        "canonical": "rgba(245, 158, 11, 0.08)",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 70.1)",
+          "oklch(26.4% 0.140 70.1)",
+          "oklch(37.9% 0.140 70.1)",
+          "oklch(49.3% 0.140 70.1)",
+          "oklch(60.7% 0.140 70.1)",
+          "oklch(72.1% 0.139 70.1)",
+          "oklch(83.6% 0.082 70.1)",
+          "oklch(95.0% 0.025 70.1)"
+        ],
+        "compositeAlpha": 0.08
+      },
+      "warning-border": {
+        "role": "warning",
+        "displayName": "warning-border",
+        "canonical": "rgba(245, 158, 11, 0.35)",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 70.1)",
+          "oklch(26.4% 0.140 70.1)",
+          "oklch(37.9% 0.140 70.1)",
+          "oklch(49.3% 0.140 70.1)",
+          "oklch(60.7% 0.140 70.1)",
+          "oklch(72.1% 0.139 70.1)",
+          "oklch(83.6% 0.082 70.1)",
+          "oklch(95.0% 0.025 70.1)"
+        ],
+        "compositeAlpha": 0.35
+      },
+      "negative-strong": {
+        "role": "negative",
+        "displayName": "negative-strong",
+        "canonical": "#fb7185",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 13.4)",
+          "oklch(26.4% 0.140 13.4)",
+          "oklch(37.9% 0.140 13.4)",
+          "oklch(49.3% 0.140 13.4)",
+          "oklch(60.7% 0.140 13.4)",
+          "oklch(72.1% 0.139 13.4)",
+          "oklch(83.6% 0.082 13.4)",
+          "oklch(95.0% 0.025 13.4)"
+        ],
+        "lightTheme": "#be123c"
+      },
+      "negative-bg": {
+        "role": "negative",
+        "displayName": "negative-bg",
+        "canonical": "#3a1522",
+        "tonalRamp": [
+          "oklch(15.0% 0.036 0.2)",
+          "oklch(26.4% 0.061 0.2)",
+          "oklch(37.9% 0.061 0.2)",
+          "oklch(49.3% 0.061 0.2)",
+          "oklch(60.7% 0.061 0.2)",
+          "oklch(72.1% 0.060 0.2)",
+          "oklch(83.6% 0.036 0.2)",
+          "oklch(95.0% 0.011 0.2)"
+        ],
+        "lightTheme": "#fdecef"
+      },
+      "surface-page": {
+        "role": "neutral",
+        "displayName": "surface-page",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(26.4% 0.000 0.0)",
+          "oklch(37.9% 0.000 0.0)",
+          "oklch(49.3% 0.000 0.0)",
+          "oklch(60.7% 0.000 0.0)",
+          "oklch(72.1% 0.000 0.0)",
+          "oklch(83.6% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ],
+        "lightTheme": "#e6eaf1"
+      },
+      "surface-card": {
+        "role": "neutral",
+        "displayName": "surface-card",
+        "canonical": "#131417",
+        "tonalRamp": [
+          "oklch(15.0% 0.004 271.1)",
+          "oklch(26.4% 0.006 271.1)",
+          "oklch(37.9% 0.006 271.1)",
+          "oklch(49.3% 0.006 271.1)",
+          "oklch(60.7% 0.006 271.1)",
+          "oklch(72.1% 0.006 271.1)",
+          "oklch(83.6% 0.004 271.1)",
+          "oklch(95.0% 0.001 271.1)"
+        ],
+        "lightTheme": "#ffffff"
+      },
+      "surface-card-2": {
+        "role": "neutral",
+        "displayName": "surface-card-2",
+        "canonical": "#18191d",
+        "tonalRamp": [
+          "oklch(15.0% 0.005 274.5)",
+          "oklch(26.4% 0.008 274.5)",
+          "oklch(37.9% 0.008 274.5)",
+          "oklch(49.3% 0.008 274.5)",
+          "oklch(60.7% 0.008 274.5)",
+          "oklch(72.1% 0.008 274.5)",
+          "oklch(83.6% 0.005 274.5)",
+          "oklch(95.0% 0.001 274.5)"
+        ],
+        "lightTheme": "#f0f3f7"
+      },
+      "surface-card-3": {
+        "role": "neutral",
+        "displayName": "surface-card-3",
+        "canonical": "#1b1c20",
+        "tonalRamp": [
+          "oklch(15.0% 0.005 274.6)",
+          "oklch(26.4% 0.008 274.6)",
+          "oklch(37.9% 0.008 274.6)",
+          "oklch(49.3% 0.008 274.6)",
+          "oklch(60.7% 0.008 274.6)",
+          "oklch(72.1% 0.008 274.6)",
+          "oklch(83.6% 0.005 274.6)",
+          "oklch(95.0% 0.001 274.6)"
+        ],
+        "lightTheme": "#e9edf3"
+      },
+      "surface-active": {
+        "role": "neutral",
+        "displayName": "surface-active",
+        "canonical": "#14202e",
+        "tonalRamp": [
+          "oklch(15.0% 0.019 252.9)",
+          "oklch(26.4% 0.032 252.9)",
+          "oklch(37.9% 0.032 252.9)",
+          "oklch(49.3% 0.032 252.9)",
+          "oklch(60.7% 0.032 252.9)",
+          "oklch(72.1% 0.032 252.9)",
+          "oklch(83.6% 0.019 252.9)",
+          "oklch(95.0% 0.006 252.9)"
+        ],
+        "lightTheme": "#e8f0fc"
+      },
+      "surface-control": {
+        "role": "neutral",
+        "displayName": "surface-control",
+        "canonical": "#202126",
+        "tonalRamp": [
+          "oklch(15.0% 0.006 276.7)",
+          "oklch(26.4% 0.010 276.7)",
+          "oklch(37.9% 0.010 276.7)",
+          "oklch(49.3% 0.010 276.7)",
+          "oklch(60.7% 0.010 276.7)",
+          "oklch(72.1% 0.009 276.7)",
+          "oklch(83.6% 0.006 276.7)",
+          "oklch(95.0% 0.002 276.7)"
+        ],
+        "lightTheme": "#edf0f4"
+      },
+      "border-card": {
+        "role": "neutral",
+        "displayName": "border-card",
+        "canonical": "#26272d",
+        "tonalRamp": [
+          "oklch(15.0% 0.007 278.1)",
+          "oklch(26.4% 0.011 278.1)",
+          "oklch(37.9% 0.011 278.1)",
+          "oklch(49.3% 0.011 278.1)",
+          "oklch(60.7% 0.011 278.1)",
+          "oklch(72.1% 0.011 278.1)",
+          "oklch(83.6% 0.007 278.1)",
+          "oklch(95.0% 0.002 278.1)"
+        ],
+        "lightTheme": "#d0d7e1"
+      },
+      "border-row": {
+        "role": "neutral",
+        "displayName": "border-row",
+        "canonical": "#1b1c20",
+        "tonalRamp": [
+          "oklch(15.0% 0.005 274.6)",
+          "oklch(26.4% 0.008 274.6)",
+          "oklch(37.9% 0.008 274.6)",
+          "oklch(49.3% 0.008 274.6)",
+          "oklch(60.7% 0.008 274.6)",
+          "oklch(72.1% 0.008 274.6)",
+          "oklch(83.6% 0.005 274.6)",
+          "oklch(95.0% 0.001 274.6)"
+        ],
+        "lightTheme": "#e9edf3"
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "border-strong",
+        "canonical": "#2e2f36",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 279.2)",
+          "oklch(26.4% 0.013 279.2)",
+          "oklch(37.9% 0.013 279.2)",
+          "oklch(49.3% 0.013 279.2)",
+          "oklch(60.7% 0.013 279.2)",
+          "oklch(72.1% 0.013 279.2)",
+          "oklch(83.6% 0.007 279.2)",
+          "oklch(95.0% 0.002 279.2)"
+        ],
+        "lightTheme": "#c9d1dc"
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "text-primary",
+        "canonical": "#f4f4f5",
+        "tonalRamp": [
+          "oklch(15.0% 0.001 286.4)",
+          "oklch(26.4% 0.001 286.4)",
+          "oklch(37.9% 0.001 286.4)",
+          "oklch(49.3% 0.001 286.4)",
+          "oklch(60.7% 0.001 286.4)",
+          "oklch(72.1% 0.001 286.4)",
+          "oklch(83.6% 0.001 286.4)",
+          "oklch(95.0% 0.000 286.4)"
+        ],
+        "lightTheme": "#0b1526"
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "text-secondary",
+        "canonical": "#a1a1aa",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 286.1)",
+          "oklch(26.4% 0.013 286.1)",
+          "oklch(37.9% 0.013 286.1)",
+          "oklch(49.3% 0.013 286.1)",
+          "oklch(60.7% 0.013 286.1)",
+          "oklch(72.1% 0.013 286.1)",
+          "oklch(83.6% 0.008 286.1)",
+          "oklch(95.0% 0.002 286.1)"
+        ],
+        "lightTheme": "#4b5669"
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "text-muted",
+        "canonical": "#71717a",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 285.9)",
+          "oklch(26.4% 0.014 285.9)",
+          "oklch(37.9% 0.014 285.9)",
+          "oklch(49.3% 0.014 285.9)",
+          "oklch(60.7% 0.014 285.9)",
+          "oklch(72.1% 0.014 285.9)",
+          "oklch(83.6% 0.008 285.9)",
+          "oklch(95.0% 0.002 285.9)"
+        ],
+        "lightTheme": "#5d6879"
+      },
+      "hero-text": {
+        "role": "neutral",
+        "displayName": "hero-text",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
+        ]
+      },
+      "hero-text-muted": {
+        "role": "neutral",
+        "displayName": "hero-text-muted",
+        "canonical": "rgba(255, 255, 255, 0.78)",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
+        ],
+        "compositeAlpha": 0.78
+      },
+      "glass-bg": {
+        "role": "neutral",
+        "displayName": "glass-bg",
+        "canonical": "rgba(255, 255, 255, 0.07)",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
+        ],
+        "compositeAlpha": 0.07
+      },
+      "glass-border": {
+        "role": "neutral",
+        "displayName": "glass-border",
+        "canonical": "rgba(255, 255, 255, 0.16)",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
+        ],
+        "compositeAlpha": 0.16
+      },
+      "btn-primary-bg-hover": {
+        "role": "neutral",
+        "displayName": "btn-primary-bg-hover",
+        "canonical": "#2a7be4",
+        "tonalRamp": [
+          "oklch(15.0% 0.084 256.8)",
+          "oklch(26.4% 0.140 256.8)",
+          "oklch(37.9% 0.140 256.8)",
+          "oklch(49.3% 0.140 256.8)",
+          "oklch(60.7% 0.140 256.8)",
+          "oklch(72.1% 0.139 256.8)",
+          "oklch(83.6% 0.082 256.8)",
+          "oklch(95.0% 0.025 256.8)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "fs-h1": {
+        "displayName": "Título do Topo",
+        "purpose": "Título principal sobre hero."
+      },
+      "fs-h2": {
+        "displayName": "Título de Seção",
+        "purpose": "Cabeçalho de card."
+      },
+      "fs-kpi": {
+        "displayName": "Número de Indicador",
+        "purpose": "Escala herdada dos cards de indicador GEX."
+      },
+      "fs-body": {
+        "displayName": "Corpo de Interface",
+        "purpose": "Texto base do painel."
+      },
+      "fs-small": {
+        "displayName": "Texto de Tabela Densa",
+        "purpose": "Nomes e explicações compactas."
+      },
+      "fs-caption": {
+        "displayName": "Cabeçalho de Tabela",
+        "purpose": "Rótulo de coluna."
+      },
+      "fs-eyebrow": {
+        "displayName": "Eyebrow GEX",
+        "purpose": "Rótulo mono com • acima de título de hero ou card."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-card",
+        "value": "0 1px 2px rgba(var(--shadow-rgb), 0.06), 0 16px 40px -28px rgba(var(--shadow-rgb), 0.25)",
+        "purpose": "Profundidade discreta de seção."
+      },
+      {
+        "name": "shadow-kpi",
+        "value": "0 18px 40px -26px rgba(var(--shadow-rgb), 0.55)",
+        "purpose": "Card de fonte."
+      },
+      {
+        "name": "shadow-tooltip",
+        "value": "0 24px 48px -18px rgba(var(--shadow-rgb), 0.35)",
+        "purpose": "Menu sobreposto."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 2px var(--surface-page), 0 0 0 4px var(--brand-blue)",
+        "purpose": "Foco de teclado."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "purpose": "Transições de controle sem quique."
+      },
+      {
+        "name": "dur-fast",
+        "value": "120ms",
+        "purpose": "Resposta curta."
+      },
+      {
+        "name": "dur-base",
+        "value": "180ms",
+        "purpose": "Hover de controles; desligar em prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "controles",
+        "value": "1020px"
+      },
+      {
+        "name": "compacto",
+        "value": "690px"
+      }
+    ],
+    "hero": {
+      "gradientDark": "linear-gradient(180deg,#030a1a 0%,#07204a 34%,#0a2352 52%,#040c1c 80%,#000000 100%)",
+      "glowDark": "radial-gradient(55% 45% at 50% 0%,rgba(56,196,242,.16),transparent 70%)"
+    }
+  },
+  "components": [
+    {
+      "name": "Botão Primário",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ação principal do painel.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Aplicar</button>",
+      "css": ".ds-btn-primary{background:var(--brand-blue);color:#fff;border:0;border-radius:var(--radius-control);padding:9px 16px;font:500 12px var(--font-ui);cursor:pointer;transition:background var(--dur-base) var(--ease)}.ds-btn-primary:hover{background:var(--btn-primary-bg-hover)}.ds-btn-primary:active{background:var(--btn-primary-bg-active)}.ds-btn-primary:focus-visible{outline:0;box-shadow:var(--focus-ring)}"
+    },
+    {
+      "name": "Botão Secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação contextual da seção.",
+      "html": "<button class=\"ds-btn-secondary\" type=\"button\">Baixar CSV</button>",
+      "css": ".ds-btn-secondary{background:var(--surface-card-2);color:var(--text-primary);border:1px solid var(--border-card);border-radius:var(--radius-control);padding:6px 10px;font:500 11px var(--font-ui);cursor:pointer;transition:background var(--dur-base) var(--ease)}.ds-btn-secondary:hover{background:var(--surface-control);border-color:var(--control-border)}.ds-btn-secondary:active{background:var(--surface-active)}.ds-btn-secondary:focus-visible{outline:0;box-shadow:var(--focus-ring)}"
+    },
+    {
+      "name": "Filtro de Vidro",
+      "kind": "nav",
+      "description": "Pílula de filtro exclusivamente sobre hero azul-marinho.",
+      "html": "<nav class=\"ds-filter-nav\" aria-label=\"Filtros\"><button class=\"ds-filter\" type=\"button\">Gateway <strong>BuyGoods</strong><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></button></nav>",
+      "css": ".ds-filter-nav{background:var(--hero-gradient);padding:16px}.ds-filter{display:flex;align-items:center;gap:8px;height:35px;padding:0 12px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-pill);backdrop-filter:blur(var(--glass-blur));color:var(--hero-text-muted);font:400 12px var(--font-ui);cursor:pointer;transition:background var(--dur-base) var(--ease)}.ds-filter strong{color:var(--hero-text);font-weight:600}.ds-filter:hover{background:var(--glass-bg-strong)}.ds-filter:focus-visible{outline:0;box-shadow:var(--focus-ring)}"
+    },
+    {
+      "name": "Busca de Contas",
+      "kind": "input",
+      "description": "Busca contida em seção densa.",
+      "html": "<label class=\"ds-search\"><input type=\"search\" placeholder=\"Buscar Conta\" aria-label=\"Buscar Conta\"></label>",
+      "css": ".ds-search{display:inline-flex;align-items:center;min-height:32px;padding:0 9px;background:var(--surface-card-2);border:1px solid var(--border-card);border-radius:var(--radius-control)}.ds-search:hover{border-color:var(--control-border)}.ds-search:focus-within{box-shadow:var(--focus-ring)}.ds-search input{width:145px;min-width:0;border:0;outline:0;background:transparent;color:var(--text-primary);font:400 11px var(--font-ui)}.ds-search input::placeholder{color:var(--text-muted)}"
+    },
+    {
+      "name": "Card de Fonte",
+      "kind": "card",
+      "refersTo": "card-source",
+      "description": "Resumo de resultado com categoria de fonte e estado ao lado.",
+      "html": "<article class=\"ds-source ds-source-api\"><span class=\"ds-source-name\">API</span><p class=\"ds-source-value\">$12.345,67</p><span class=\"ds-source-delta\">Δ +$12,00</span></article>",
+      "css": ".ds-source{--ds-tone:var(--cat-2);position:relative;overflow:hidden;min-height:125px;background:var(--surface-card);border:1px solid var(--border-card);border-radius:var(--radius-kpi);padding:13px 17px;color:var(--text-primary);font-family:var(--font-ui);font-variant-numeric:tabular-nums;box-shadow:var(--shadow-kpi)}.ds-source:before{content:\"\";position:absolute;top:0;left:18px;right:18px;height:2px;background:var(--ds-tone)}.ds-source-name{font-size:12px;font-weight:600;color:var(--ds-tone)}.ds-source-value{font-size:25px;letter-spacing:-.025em;font-weight:600;margin:4px 0}.ds-source-delta{display:inline-block;padding:2px 6px;border-radius:var(--radius-chip);background:var(--warning-bg);box-shadow:inset 0 0 0 1px var(--warning-border);color:var(--warning-ink);font-size:10.5px}.ds-source:focus-within{box-shadow:var(--focus-ring)}"
+    },
+    {
+      "name": "Card de Seção",
+      "kind": "card",
+      "refersTo": "card-section",
+      "description": "Contêiner de tabela e controles.",
+      "html": "<section class=\"ds-section\"><h2>Contas por Fonte</h2><p>Confira valor e divergência por fonte.</p></section>",
+      "css": ".ds-section{background:var(--surface-card);color:var(--text-primary);border:1px solid var(--border-card);border-radius:var(--radius-card);padding:17px 17px 12px;box-shadow:var(--shadow-card);font-family:var(--font-ui)}.ds-section h2{font-size:16px;font-weight:600;letter-spacing:-.01em;margin:0 0 3px}.ds-section p{font-size:11.5px;color:var(--text-secondary);margin:0}.ds-section:focus-within{box-shadow:var(--focus-ring)}"
+    },
+    {
+      "name": "Chip de Divergência",
+      "kind": "chip",
+      "refersTo": "chip-divergent",
+      "description": "Valor divergente e delta na própria célula da fonte.",
+      "html": "<span class=\"ds-diff\">$120,00<small>Δ +$2,00</small></span>",
+      "css": ".ds-diff{display:inline-flex;flex-direction:column;align-items:flex-end;min-height:34px;padding:2px 5px;border-radius:var(--radius-chip);background:var(--warning-bg);box-shadow:inset 0 0 0 1px var(--warning-border);color:var(--text-primary);font:400 11px/1.18 var(--font-ui);font-variant-numeric:tabular-nums}.ds-diff small{font-size:9px;color:var(--warning-ink);margin-top:2px}.ds-diff:hover{box-shadow:inset 0 0 0 1px var(--warning-ink)}.ds-diff:focus-visible{outline:0;box-shadow:var(--focus-ring)}"
+    },
+    {
+      "name": "Estado Igual",
+      "kind": "chip",
+      "description": "Igualdade discreta por texto e check Lucide.",
+      "html": "<span class=\"ds-equal\">$120,00 <span class=\"ds-equal-icon\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span></span>",
+      "css": ".ds-equal{display:inline-flex;align-items:center;gap:3px;color:var(--text-secondary);font:400 11px var(--font-ui);font-variant-numeric:tabular-nums}.ds-equal-icon{display:inline-flex;color:var(--positive-strong)}.ds-equal:focus-visible{outline:0;box-shadow:var(--focus-ring)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Mesa de Conferência GEX",
+    "overview": "Este projeto herda o GEX Design System como fonte de verdade e registra sua aplicação no painel operacional. Resultado diário e confiança em cada fonte ficam juntos. A marca aparece no azul, no topo em degradê azul-marinho com brilho ciano e na tipografia Geist, nunca em ornamento. Escuro é padrão; claro preserva a semântica.",
+    "keyCharacteristics": [
+      "Trincas Web | API | Lake deixam a comparação na própria célula da fonte.",
+      "Cor indica identidade da fonte ou estado do dado, sem substituir texto, ícone ou valor.",
+      "Cards de fonte compactos e tabela densa mantêm resultado e divergência juntos."
+    ],
+    "rules": [
+      {
+        "name": "The Fonte Constante Rule",
+        "body": "Web usa --cat-1, API usa --cat-2, Lake usa --cat-3 em cards, cabeçalhos e explicações; o tema muda os valores, nunca os papéis.",
+        "section": "colors"
+      },
+      {
+        "name": "The Semântica Antes da Ênfase Rule",
+        "body": "Igualdade é texto secundário com check Lucide; divergência é âmbar com Δ; ausência é chip em --negative-bg. Não usar vermelho para discordância ordinária.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dado Tabular Rule",
+        "body": "font-variant-numeric: tabular-nums; dinheiro com símbolo, decimal com vírgula e milhar com ponto. AOV, EPO e Affiliate EPO são médias de contas explicitamente rotuladas “Média das Contas”, nunca somas.",
+        "section": "typography"
+      },
+      {
+        "name": "The Base Web Rule",
+        "body": "Totais por fonte consideram apenas as contas da base Web; contas extras de API/Lake aparecem separadamente. Métricas por pedido recebem média simples das contas e rótulo correspondente.",
+        "section": "layout"
+      }
+    ],
+    "dos": [
+      "reutilizar tokens e regras de gex-design-system/tokens.css; esta documentação descreve uso local, não cria paleta paralela.",
+      "distinguir resultado da fonte de confiança no valor; Web é base e API/Lake se comparam a ele.",
+      "usar Lucide de traço 2, texto pt-BR em Title Case nos rótulos e valores tabulares brasileiros.",
+      "manter “• ” em Geist Mono somente no eyebrow GEX acima de títulos de hero e cards, conforme norma herdada."
+    ],
+    "donts": [
+      "somar AOV, EPO ou Affiliate EPO nem incluir contas extras no total das contas base.",
+      "usar vermelho para uma simples divergência; use âmbar com delta e contexto da fonte.",
+      "usar vidro fora do degradê, emoji, exclamação ou efeitos ornamentais para representar marca."
+    ]
+  }
+}

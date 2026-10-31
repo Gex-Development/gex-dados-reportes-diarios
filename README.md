@@ -16,6 +16,7 @@ Requisitos: `uv`/`uvx`, Google Chrome, Node.js (hooks) e perfil AWS somente leit
 npm install                    # ativa hooks locais
 make buygoods DATE=2026-10-28 # exemplo: painel BuyGoods
 make diff GATEWAY=buygoods DATE=2026-10-28 # após gerar web e api/lake
+make painel                    # dados do painel HTML a partir dos diffs salvos
 ```
 
 | Alvo                                                                  | Resultado                                            |
@@ -23,6 +24,7 @@ make diff GATEWAY=buygoods DATE=2026-10-28 # após gerar web e api/lake
 | `make buygoods` / `make buygoods-api` / `make buygoods-lake`          | JSON BuyGoods; Web também arquiva `.xls` ou `.xlsx`  |
 | `make pagamerican` / `make pagamerican-api` / `make pagamerican-lake` | JSON PagAmerican; Web também arquiva `.xlsx`         |
 | `make diff GATEWAY=buygoods\|pagamerican`                             | Compara API/Lake com Web; gera visões AI e Dashboard |
+| `make painel`                                                         | Gera `mockups/painel.data.js` para o painel HTML     |
 
 Todos os alvos aceitam `DATE=AAAA-MM-DD` (sem data: último dia completo no relógio do gateway) e `OUTPUT_ROOT=/caminho` (muda a raiz de `exports/`). Os seis alvos de extração aceitam `DEBUG=1`; só `make pagamerican` aceita `HEADED=1` para login manual inicial. Saídas: `exports/<gateway>/<source>/AAAA/MM/`; diff: `exports/<gateway>/diff/AAAA/MM/diff_ai_*.json` e `diff_dashboard_*.json`. Arquivos existentes de extração não são sobrescritos.
 
@@ -57,6 +59,14 @@ Uma compra PagAmerican aberta às 23:53 de D e paga às 00:02 de D+1 pertence a 
 `make diff GATEWAY=pagamerican DATE=2026-10-29` lê JSONs já salvos, sem consultar fontes. Exige Web e pelo menos API ou Lake; compara campo a campo com tolerância de **US$ 0,01**. Status: `igual`, `divergente`, `faltando_na_fonte`, `extra_na_fonte`. `diff_ai_*.json` resume diferenças; `diff_dashboard_*.json` traz uma linha por conta × campo × fonte, inclusive iguais. Diffs podem ser reconstruídos após nova carga.
 
 <img src="docs/assets/diff.svg" alt="Comparação com Web: BuyGoods API 49 de 64 e Lake 18 de 64; PagAmerican API 5 de 5 e Lake 3 de 5" width="100%">
+
+## Painel
+
+`mockups/painel.html` é o mockup do painel diário: abre direto no navegador, sem servidor. `make painel` gera os dados dele (`mockups/painel.data.js`, fora do Git) com o último dia que tem diff em cada gateway; `BUYGOODS_DATE=` e `PAGAMERICAN_DATE=` escolhem outro dia.
+
+<img src="docs/assets/painel.png" alt="Painel BuyGoods de 28/10: Net por fonte e tabela de contas com Gross, Refunds e Net em Web, API e Lake" width="100%">
+
+O título traz o Net do dia; os cards de Web, API e Lake seguem a métrica escolhida e comparam as mesmas contas do painel, com as extras à parte. Na tabela, cada métrica vira três colunas, e a diferença aparece na célula da fonte que divergiu. O [Guia Operacional](docs/guia.md#painel-mockup-html) explica as regras.
 
 ## Desenvolvimento
 

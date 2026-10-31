@@ -25,6 +25,7 @@ Executar na raiz. Sem `DATE`, cada alvo usa o último dia completo **no relógio
 | `make pagamerican DATE=AAAA-MM-DD` (`HEADED=1` no 1º login) | `exports/pagamerican/web/AAAA/MM/pagamerican_D.xlsx` e `pagamerican_D.json`                    |
 | `make pagamerican-api DATE=AAAA-MM-DD`                      | `exports/pagamerican/api/AAAA/MM/pagamerican_D.json`                                           |
 | `make pagamerican-lake DATE=AAAA-MM-DD`                     | `exports/pagamerican/lake/AAAA/MM/pagamerican_D.json`                                          |
+| `make painel` (`BUYGOODS_DATE=`, `PAGAMERICAN_DATE=`)       | `mockups/painel.data.js` (dados do painel HTML; fora do Git)                                   |
 | `make test`                                                 | Testes unitários (`unittest discover -s tests -v`); não gera relatório                         |
 
 `DATE` vale para os seis alvos e para `make diff`. `DEBUG=1` habilita logs detalhados em qualquer extração; `OUTPUT_ROOT=/caminho` desloca a raiz de `exports/` para `/caminho/exports/`; `HEADED=1` só vale para `pagamerican` (primeiro login manual ou sessão expirada). Exemplo: `make pagamerican-api DATE=2026-10-29 OUTPUT_ROOT=/tmp/reports DEBUG=1`. `.gitignore` mantém `.env`, `credentials/` e `exports/` fora do versionamento.
@@ -87,6 +88,23 @@ Medições de um dia específico, **não garantia para outra data nem aprovaçã
 
 Status: `igual` se |delta| ≤ US$ 0,01; `divergente` caso contrário; `faltando_na_fonte` se conta está apenas no Web; `extra_na_fonte` se está apenas na fonte comparada. Arquivos de diff são derivados e reconstruídos a cada execução, inclusive após nova carga do lake.
 
+## Painel (Mockup HTML)
+
+Etapa de visualização: `mockups/painel.html` mostra o relatório de um dia por gateway nas três fontes. É HTML estático com JavaScript simples; abre por `file://`, sem servidor e sem rede além das fontes do Google. Onde o painel vai morar depois (arquivo local, GEX Hub ou outro) ainda não foi decidido (`PRODUCT.md`).
+
+**Gerar os dados.** Rodar depois de `make diff` dos dois gateways. `make painel` lê, para cada gateway, o último dia com `diff_ai_AAAA-MM-DD.json` salvo, junta os três JSONs do dia (fonte ausente vira lista vazia) e grava `mockups/painel.data.js`. Para outro dia: `make painel BUYGOODS_DATE=2026-10-28 PAGAMERICAN_DATE=2026-10-29`. Sem diff do dia, o comando falha pedindo o `make diff` correspondente. O arquivo gerado traz valores reais por conta e fica no `.gitignore`.
+
+**O que a tela mostra.**
+
+- Título com o Net do dia no Web e frase com as contas que batem (API e Lake contra o painel).
+- Filtros: Gateway, Dia (só os dias gerados), Métricas (1 a 4 dos 11 campos) e Mostrar (Todas, Só Divergentes, Extras na Fonte).
+- Cards Web, API e Lake na métrica ativa (a primeira escolhida, ou a da ordenação): total **só das contas do painel**, Δ contra o Web, contas iguais naquela métrica e as contas extras da fonte à parte. AOV, EPO e Affiliate EPO são valores por pedido; como o contrato não traz pedidos, cards e linha de total mostram a **média simples das contas**, com esse rótulo.
+- Tabela: cada métrica em três colunas (Web, API, Lake); célula divergente em amarelo com o Δ, igual com check, ausente em vermelho. Ordena pelo valor do Web, busca por conta, exporta CSV do que está na tela.
+- Clique numa conta: os 11 campos nas três fontes e "Como Cada Fonte Conta o Dia", com o que explica cada divergência daquela conta. O pedido da virada do dia da PagAmerican aparece como Diferença Conhecida.
+- Tema escuro (padrão) e claro; no celular, cards compactos e tabela com rolagem lateral dentro do card.
+
+**Design.** Segue o design system GEX (skill `gex-design-system`, tokens colados no HTML). O layout "Trincas de Fontes" foi escolhido com a skill `impeccable`: `PRODUCT.md` guarda usuários e regras do produto, `.impeccable/surfaces/mockups-painel-html.md` guarda o contrato de direção do painel e `.impeccable/config.json` registra a construção direto em código. Rascunhos e capturas de revisão (`.impeccable/mocks/`, `.impeccable/review/`) ficam fora do Git.
+
 ## Manutenção
 
 - `src/scripts/extracao_diaria_<gateway>_<fonte>.py`: coleta, cortes temporais, caminhos e CLI; `src/common/report.py`: fórmula do painel, schema, escrita e data padrão; `src/common/athena.py`: cliente Athena dos dois lakes; `src/transformations/`: leitura das planilhas web; `schemas/`: contratos; `tests/`: regressões; `exports/<gateway>/<fonte>/AAAA/MM/`: artefatos. `Makefile` mantém comandos e dependências; `README.md` guarda medições.
@@ -99,3 +117,4 @@ Status: `igual` se |delta| ≤ US$ 0,01; `divergente` caso contrário; `faltando
 - BuyGoods web: dia escolhido em `Custom Range` (caixas de mês/ano do calendário, clique duplo no dia, Apply); o botão do filtro precisa mostrar `Mon D, AAAA - Mon D, AAAA`.
 - Lake canônico PagAmerican segue em onboarding; aprovação humana/produção é distinta de código, carga ou comparação histórica.
 - Animação do README: fonte editável em `docs/hero/`; `cd docs/hero && npm run render` regenera o MP4. Converter para GIF com `ffmpeg`.
+- Painel: `src/scripts/dados_painel.py` (`make painel`) monta `window.REPORTS` a partir de `exports/` e do `diff_ai`; `mockups/painel.html` calcula tudo no navegador com tolerância de US$ 0,01 e Web como base. Mudou o contrato JSON ou o `diff_ai`? Ajuste os dois e rode `make painel` antes de abrir. Totais nunca somam métricas por pedido (AOV, EPO, Affiliate EPO).
