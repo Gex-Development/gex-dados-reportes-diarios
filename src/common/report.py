@@ -6,9 +6,9 @@ import json
 import re
 import tempfile
 import unicodedata
-from datetime import date, datetime, timedelta, timezone, tzinfo
+from collections.abc import Iterable
+from datetime import UTC, date, datetime, timedelta, timezone, tzinfo
 from pathlib import Path
-from typing import Iterable
 
 import jsonschema
 from jsonschema import FormatChecker
@@ -44,7 +44,7 @@ def money(value: object) -> float:
 
 # Each gateway closes its day in its own clock: BuyGoods fixed GMT-4 (no DST), PagAmerican UTC.
 BUYGOODS_TZ = timezone(timedelta(hours=-4))
-PAGAMERICAN_TZ = timezone.utc
+PAGAMERICAN_TZ = UTC
 
 
 def yesterday(now: datetime, tz: tzinfo) -> date:

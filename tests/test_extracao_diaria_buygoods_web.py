@@ -2,12 +2,13 @@ import unittest
 from datetime import date
 from pathlib import Path
 from tempfile import TemporaryDirectory
+
 from playwright.sync_api import sync_playwright
 
 from src.scripts.extracao_diaria_buygoods_web import (
+    add_selected_action,
     existing_local_export,
     export_action,
-    add_selected_action,
     export_filename,
     export_path,
     parse_args,
@@ -48,7 +49,7 @@ class ExistingExportTests(unittest.TestCase):
 class ExportActionSelectorTests(unittest.TestCase):
     def test_finds_visible_export_action_when_hidden_duplicates_exist(self):
         html = (
-            '<style>.d-none{display:none}</style>'
+            "<style>.d-none{display:none}</style>"
             '<div id="export" class="col-auto d-none">'
             '<a action="export" href="javascript:;">'
             '<i class="bi-download me-1"></i> Export</a></div>'
@@ -75,7 +76,7 @@ class AddSelectedActionTests(unittest.TestCase):
             '<div role="dialog">'
             '<a action="add" class="btn btn-success btn-sm" '
             'onclick="window.clicked=true;return false">Add Selected</a>'
-            '</div>'
+            "</div>"
         )
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(channel="chrome", headless=True)
@@ -90,11 +91,11 @@ class AddSelectedActionTests(unittest.TestCase):
                 browser.close()
 
 
-
-
 class CommandLineTests(unittest.TestCase):
     def test_debug_flag_enables_verbose_logging_mode(self):
         self.assertTrue(parse_args(["--debug"]).debug)
         self.assertFalse(parse_args([]).debug)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -5,14 +5,36 @@ from src.scripts.extracao_diaria_pagamerican_lake import build_report
 
 
 def row(product, **values):
-    base = {key: None for key in ("sales", "fees", "sale_taxes", "commissions", "shipping_handling", "orders", "refunds", "chargebacks")}
+    base = {
+        key: None
+        for key in (
+            "sales",
+            "fees",
+            "sale_taxes",
+            "commissions",
+            "shipping_handling",
+            "orders",
+            "refunds",
+            "chargebacks",
+        )
+    }
     return {"nm_conta": product, **base, **values}
 
 
 class BuildReportTests(unittest.TestCase):
     def test_maps_lake_rows_to_pagamerican_report(self):
         report = build_report(
-            [row("SodaPeak", sales="400.00", fees="28.00", sale_taxes="20.00", commissions="250.00", orders="2", refunds="40.00")],
+            [
+                row(
+                    "SodaPeak",
+                    sales="400.00",
+                    fees="28.00",
+                    sale_taxes="20.00",
+                    commissions="250.00",
+                    orders="2",
+                    refunds="40.00",
+                )
+            ],
             date(2026, 10, 29),
         )
 

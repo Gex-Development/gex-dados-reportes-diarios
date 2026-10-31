@@ -8,7 +8,7 @@ import os
 import sys
 import time
 from collections import defaultdict
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 import requests
@@ -49,14 +49,20 @@ class PagAmericanClient:
             page = 1
             rows = []
             while True:
-                params = {"from": day.isoformat(), "to": (day + timedelta(days=1)).isoformat(),
-                          "limit": LIMIT, "page": page}
+                params = {
+                    "from": day.isoformat(),
+                    "to": (day + timedelta(days=1)).isoformat(),
+                    "limit": LIMIT,
+                    "page": page,
+                }
                 response = self.session.get(f"{BASE_URL}/{route}", params=params, timeout=60)
                 if response.status_code == 429:
                     time.sleep(int(response.headers.get("Retry-After", "60")))
                     response = self.session.get(f"{BASE_URL}/{route}", params=params, timeout=60)
                 if response.status_code != 200:
-                    raise RuntimeError(f"PagAmerican /{route} HTTP {response.status_code} for {day}; report not written")
+                    raise RuntimeError(
+                        f"PagAmerican /{route} HTTP {response.status_code} for {day}; report not written"
+                    )
                 batch = response.json()["data"]
                 rows.extend(batch)
                 time.sleep(1.05)  # API limit: 60 requests/minute.
@@ -69,8 +75,9 @@ class PagAmericanClient:
         return result
 
 
-def build_report(orders: list[dict], purchases: list[dict], refunds: list[dict],
-                 chargebacks: list[dict], report_date: date) -> dict:
+def build_report(
+    orders: list[dict], purchases: list[dict], refunds: list[dict], chargebacks: list[dict], report_date: date
+) -> dict:
     front_product = {}
     for purchase in purchases:
         if purchase["purchaseType"] != "front":
@@ -95,8 +102,12 @@ def build_report(orders: list[dict], purchases: list[dict], refunds: list[dict],
         name = front_product[order_id]
         relevant_orders.add(order_id)
         ledger = ledgers[name]
-        for field, api_field in (("sales", "amountTransaction"), ("fees", "amountCreatorPlatformFee"),
-                                 ("sale_taxes", "amountCreatorTax"), ("commissions", "amountAffiliation")):
+        for field, api_field in (
+            ("sales", "amountTransaction"),
+            ("fees", "amountCreatorPlatformFee"),
+            ("sale_taxes", "amountCreatorTax"),
+            ("commissions", "amountAffiliation"),
+        ):
             ledger[field] += order[api_field] or 0
         counts[name] += 1
 
@@ -115,7 +126,15 @@ def build_report(orders: list[dict], purchases: list[dict], refunds: list[dict],
 
 
 def report_path(root: Path, report_date: date) -> Path:
-    return root / "exports" / "pagamerican" / "api" / f"{report_date.year:04d}" / f"{report_date.month:02d}" / f"pagamerican_{report_date}.json"
+    return (
+        root
+        / "exports"
+        / "pagamerican"
+        / "api"
+        / f"{report_date.year:04d}"
+        / f"{report_date.month:02d}"
+        / f"pagamerican_{report_date}.json"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -126,7 +145,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     logger.remove()
     logger.add(sys.stderr, level="DEBUG" if args.debug else "INFO")
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     report_date = args.date or yesterday(now, PAGAMERICAN_TZ)
     output = report_path(args.output_root, report_date)
     if output.exists():

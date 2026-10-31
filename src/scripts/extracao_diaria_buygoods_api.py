@@ -8,13 +8,21 @@ import csv
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 import requests
 from loguru import logger
 
-from src.common.report import BUYGOODS_TZ, LEDGER_FIELDS, account_metrics, finalize_report, money, write_report, yesterday
+from src.common.report import (
+    BUYGOODS_TZ,
+    LEDGER_FIELDS,
+    account_metrics,
+    finalize_report,
+    money,
+    write_report,
+    yesterday,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 CREDENTIALS_PATH = ROOT / "credentials" / "buygoods_account_tokens.csv"
@@ -169,7 +177,9 @@ def report_path(root: Path, report_date: date) -> Path:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)")
+    parser.add_argument(
+        "--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)"
+    )
     parser.add_argument("--date", type=date.fromisoformat, help="Report date YYYY-MM-DD (default: yesterday)")
     parser.add_argument("--debug", action="store_true", help="Show per-account details")
     return parser.parse_args(argv)
@@ -179,7 +189,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     logger.remove()
     logger.add(sys.stderr, level="DEBUG" if args.debug else "INFO", colorize=sys.stderr.isatty())
-    report_date = args.date or yesterday(datetime.now(timezone.utc), BUYGOODS_TZ)
+    report_date = args.date or yesterday(datetime.now(UTC), BUYGOODS_TZ)
     output = report_path(args.output_root.resolve(), report_date)
     logger.info("Starting BuyGoods API extraction for {}", report_date)
     if output.exists():
@@ -191,7 +201,9 @@ def main(argv: list[str] | None = None) -> int:
         results = list(pool.map(lambda account: extract_account(account, report_date), accounts))
 
     if not any(closed for closed, _ in results):
-        raise RuntimeError(f"Ledger has no Net line for {report_date} yet; BuyGoods posts it around 08:12 GMT-4 next day")
+        raise RuntimeError(
+            f"Ledger has no Net line for {report_date} yet; BuyGoods posts it around 08:12 GMT-4 next day"
+        )
     metrics = [account for _, account in results if account]
     logger.info("{} of {} accounts had movement", len(metrics), len(accounts))
     write_report(finalize_report(metrics, report_date, "Buygoods", "api"), output)

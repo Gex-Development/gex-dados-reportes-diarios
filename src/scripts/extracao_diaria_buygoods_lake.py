@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 from loguru import logger
@@ -41,7 +41,8 @@ eventos AS (
       THEN coalesce(e.vl_evento_usd, 0) + coalesce(e.vl_evento_iva_usd, 0) END) AS refunds,
     sum(CASE WHEN e.cd_tipo_evento IN {refund_events} THEN coalesce(e.vl_evento_iva_usd, 0) END) AS sale_tax_refunds,
     sum(CASE WHEN e.cd_tipo_evento LIKE 'chargeback%'
-      THEN coalesce(e.vl_evento_usd, 0) + coalesce(e.vl_evento_iva_usd, 0) + coalesce(e.vl_multa_usd, 0) END) AS chargebacks,
+      THEN coalesce(e.vl_evento_usd, 0) + coalesce(e.vl_evento_iva_usd, 0) + coalesce(e.vl_multa_usd, 0)
+    END) AS chargebacks,
     -- shortcut: the lake has no commission voids; commission of items charged back that day matched 46/64
     -- accounts on 2026-10-28 and overshoots large accounts by up to US$ 2k. Replace once voids are modeled.
     sum(CASE WHEN e.cd_tipo_evento LIKE 'chargeback%' THEN t.vl_comissao_afiliado_usd END) AS commissions_voids
@@ -76,7 +77,9 @@ def report_path(root: Path, report_date: date) -> Path:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)")
+    parser.add_argument(
+        "--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)"
+    )
     parser.add_argument("--date", type=date.fromisoformat, help="Report date YYYY-MM-DD (default: yesterday)")
     parser.add_argument("--debug", action="store_true", help="Log the Athena query")
     return parser.parse_args(argv)
@@ -86,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     logger.remove()
     logger.add(sys.stderr, level="DEBUG" if args.debug else "INFO", colorize=sys.stderr.isatty())
-    report_date = args.date or yesterday(datetime.now(timezone.utc), BUYGOODS_TZ)
+    report_date = args.date or yesterday(datetime.now(UTC), BUYGOODS_TZ)
     output = report_path(args.output_root.resolve(), report_date)
     logger.info("Starting BuyGoods lake extraction for {}", report_date)
     if output.exists():

@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from dotenv import dotenv_values
@@ -101,13 +101,13 @@ def existing_export_link(page, title: str, data_date: date):
     return link if expected_day in row.inner_text() else None
 
 
-
 def export_action(page):
     return page.locator('a[action="export"]:visible').last
 
 
 def add_selected_action(dialog):
     return dialog.locator('a[action="add"]:visible')
+
 
 def create_export(page, title: str) -> None:
     logger.debug("Creating export form for {}", title)
@@ -183,7 +183,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Show detailed browser and export steps",
     )
-    parser.add_argument("--date", type=date.fromisoformat, help="Report date YYYY-MM-DD, GMT-4 day (default: yesterday)")
+    parser.add_argument(
+        "--date", type=date.fromisoformat, help="Report date YYYY-MM-DD, GMT-4 day (default: yesterday)"
+    )
     return parser.parse_args(argv)
 
 
@@ -201,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     configure_logging(args.debug)
     root = args.output_root.resolve()
-    data_date = args.date or yesterday(datetime.now(timezone.utc), BUYGOODS_TZ)
+    data_date = args.date or yesterday(datetime.now(UTC), BUYGOODS_TZ)
     title = report_title(data_date)
     logger.info("Starting BuyGoods export for {}", data_date)
 

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import html
 import math
+from collections.abc import Iterable
 from datetime import date
 from pathlib import Path
-from typing import Iterable
 
 from src.common.report import finalize_report, write_report
 

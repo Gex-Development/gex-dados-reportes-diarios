@@ -9,13 +9,12 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
-
-from openpyxl import load_workbook
 
 from dotenv import dotenv_values
 from loguru import logger
+from openpyxl import load_workbook
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api import sync_playwright
 
@@ -112,10 +111,14 @@ def select_excel(page) -> None:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)")
+    parser.add_argument(
+        "--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)"
+    )
     parser.add_argument("--headed", action="store_true", help="Show the browser (needed for the first login)")
     parser.add_argument("--debug", action="store_true", help="Show detailed browser steps")
-    parser.add_argument("--date", type=date.fromisoformat, help="Report date YYYY-MM-DD, UTC day (default: yesterday UTC)")
+    parser.add_argument(
+        "--date", type=date.fromisoformat, help="Report date YYYY-MM-DD, UTC day (default: yesterday UTC)"
+    )
     return parser.parse_args(argv)
 
 
@@ -198,7 +201,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     logger.remove()
     logger.add(sys.stderr, level="DEBUG" if args.debug else "INFO", colorize=sys.stderr.isatty())
-    data_date = args.date or yesterday(datetime.now(timezone.utc), PAGAMERICAN_TZ)
+    data_date = args.date or yesterday(datetime.now(UTC), PAGAMERICAN_TZ)
     target = export_path(args.output_root.resolve(), data_date)
     logger.info("Starting PagAmerican export for {}", data_date)
     if target.exists():

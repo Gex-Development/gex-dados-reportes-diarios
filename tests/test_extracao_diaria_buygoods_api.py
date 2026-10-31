@@ -1,8 +1,8 @@
 import unittest
 from datetime import date
 
-from src.scripts.extracao_diaria_buygoods_api import count_orders, count_refunds, ledger_net_line
 from src.common.report import account_metrics
+from src.scripts.extracao_diaria_buygoods_api import count_orders, count_refunds, ledger_net_line
 
 DAY = date(2026, 10, 28)
 

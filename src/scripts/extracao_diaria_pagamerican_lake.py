@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from loguru import logger
@@ -44,7 +44,8 @@ eventos AS (
     sum(CASE WHEN e.cd_tipo_evento LIKE 'refund%'
       THEN coalesce(e.vl_evento_usd, 0) + coalesce(e.vl_evento_iva_usd, 0) END) AS refunds,
     sum(CASE WHEN e.cd_tipo_evento LIKE 'chargeback%' OR e.cd_tipo_evento = 'alerta_chargeback'
-      THEN coalesce(e.vl_evento_usd, 0) + coalesce(e.vl_evento_iva_usd, 0) + coalesce(e.vl_multa_usd, 0) END) AS chargebacks
+      THEN coalesce(e.vl_evento_usd, 0) + coalesce(e.vl_evento_iva_usd, 0) + coalesce(e.vl_multa_usd, 0)
+    END) AS chargebacks
   FROM fct_eventos_pos_venda e
   JOIN itens i ON i.id_transacao = e.id_transacao
   JOIN pedidos p ON p.id_grupo_pedido = i.id_grupo_pedido
@@ -60,7 +61,9 @@ ORDER BY 1
 
 def build_report(rows: list[dict], report_date: date) -> dict:
     if any(row["nm_conta"] is None for row in rows):
-        raise ValueError(f"Lake has PagAmerican orders without a front item on {report_date}; cannot name their account")
+        raise ValueError(
+            f"Lake has PagAmerican orders without a front item on {report_date}; cannot name their account"
+        )
     return finalize_report(accounts_from_rows(rows), report_date, "Pagamerican", "lake")
 
 
@@ -78,7 +81,9 @@ def report_path(root: Path, report_date: date) -> Path:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)")
+    parser.add_argument(
+        "--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)"
+    )
     parser.add_argument("--date", type=date.fromisoformat, help="Report date YYYY-MM-DD (default: yesterday)")
     parser.add_argument("--debug", action="store_true", help="Log the Athena query")
     return parser.parse_args(argv)
@@ -88,7 +93,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     logger.remove()
     logger.add(sys.stderr, level="DEBUG" if args.debug else "INFO", colorize=sys.stderr.isatty())
-    report_date = args.date or yesterday(datetime.now(timezone.utc), PAGAMERICAN_TZ)
+    report_date = args.date or yesterday(datetime.now(UTC), PAGAMERICAN_TZ)
     output = report_path(args.output_root.resolve(), report_date)
     logger.info("Starting PagAmerican lake extraction for {}", report_date)
     if output.exists():

@@ -5,7 +5,6 @@ from pathlib import Path
 
 from src.transformations.buygoods_master_accounts import build_report, transform_file
 
-
 HEADERS = [
     "Account",
     "Visitors",

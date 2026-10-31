@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import jsonschema
@@ -48,7 +48,8 @@ CONTEXT = {
         "S&H = frete cobrado (informativo); pedidos = clientes distintos.",
     },
     "Pagamerican": {
-        "web": "Export do painel; dia UTC; refunds/chargebacks dos pedidos do dia, qualquer data de evento; alerta conta como chargeback.",
+        "web": "Export do painel; dia UTC; refunds/chargebacks dos pedidos do dia, qualquer data de evento; "
+        "alerta conta como chargeback.",
         "api": "Data API v1; pedido no dia da abertura do checkout (UTC); mesma semântica do painel.",
         "lake": "Canônico silver em onboarding (sem aceite); dia pela data da venda (UTC), não pelo checkout: "
         "pedido na virada do dia muda de dia. S&H = frete cobrado (informativo).",
@@ -116,12 +117,16 @@ def build_diff(gateway: str, report_date: date, reports: dict, paths: dict) -> t
                         "valor": value,
                         "valor_base": value_base,
                         "delta": delta,
-                        "delta_pct": round(delta / abs(value_base) * 100, 2) if delta is not None and value_base else None,
+                        "delta_pct": round(delta / abs(value_base) * 100, 2)
+                        if delta is not None and value_base
+                        else None,
                         "status": status if status != "divergente" or not _equal(value, value_base) else "igual",
                     }
                 )
             if status != "igual":
-                ai_accounts.setdefault(key, {"account_name": name, "status": {}, "campos": {}})["status"][source] = status
+                ai_accounts.setdefault(key, {"account_name": name, "status": {}, "campos": {}})["status"][source] = (
+                    status
+                )
 
     for key, entry in ai_accounts.items():
         for field in FIELDS:
@@ -154,7 +159,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("gateway", choices=sorted(GATEWAYS), help="Gateway to compare")
     parser.add_argument("--date", type=date.fromisoformat, help="Report date YYYY-MM-DD (default: yesterday)")
-    parser.add_argument("--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)")
+    parser.add_argument(
+        "--output-root", type=Path, default=ROOT, help="Root directory for exports (default: project root)"
+    )
     return parser.parse_args(argv)
 
 
@@ -163,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
     logger.remove()
     logger.add(sys.stderr, level="INFO", colorize=sys.stderr.isatty())
     gateway, prefix = GATEWAYS[args.gateway]
-    report_date = args.date or yesterday(datetime.now(timezone.utc), BUYGOODS_TZ if gateway == "Buygoods" else PAGAMERICAN_TZ)
+    report_date = args.date or yesterday(datetime.now(UTC), BUYGOODS_TZ if gateway == "Buygoods" else PAGAMERICAN_TZ)
     root = args.output_root.resolve()
     month = Path(f"{report_date.year:04d}") / f"{report_date.month:02d}"
 
@@ -190,8 +197,12 @@ def main(argv: list[str] | None = None) -> int:
     for source, item in ai["resumo"].items():
         logger.info(
             "{} vs {}: {}/{} contas iguais, {} faltando, {} extras",
-            source, BASE, item["contas_iguais"], item["contas_comparadas"],
-            len(item["faltando_na_fonte"]), len(item["extra_na_fonte"]),
+            source,
+            BASE,
+            item["contas_iguais"],
+            item["contas_comparadas"],
+            len(item["faltando_na_fonte"]),
+            len(item["extra_na_fonte"]),
         )
     return 0
 

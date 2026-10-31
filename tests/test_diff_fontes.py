@@ -11,7 +11,13 @@ def account(name, **values):
 
 
 def report(source, accounts):
-    return {"gateway": "Buygoods", "report_date": DAY.isoformat(), "currency": "USD", "source": source, "contas": accounts}
+    return {
+        "gateway": "Buygoods",
+        "report_date": DAY.isoformat(),
+        "currency": "USD",
+        "source": source,
+        "contas": accounts,
+    }
 
 
 WEB = report(

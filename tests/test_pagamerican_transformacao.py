@@ -40,7 +40,9 @@ class PagAmericanTransformationTests(unittest.TestCase):
 
             report = transform_file(source, Path(directory) / "pagamerican.json", DAY)
 
-        self.assertEqual((report["gateway"], report["source"], report["report_date"]), ("Pagamerican", "web", "2026-10-29"))
+        self.assertEqual(
+            (report["gateway"], report["source"], report["report_date"]), ("Pagamerican", "web", "2026-10-29")
+        )
         self.assertEqual(
             report["contas"]["sodapeak"],
             {
