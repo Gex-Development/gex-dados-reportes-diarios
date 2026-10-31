@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Diff entre fontes por gateway e dia (leitura por IA)",
+  "description": "Compara as fontes de um gateway num dia contra uma fonte base. Resumo responde 'bate?'; contas mostram só os campos divergentes, com os valores de todas as fontes lado a lado.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["gateway", "report_date", "currency", "base", "tolerancia", "fontes", "resumo", "contas"],
+  "properties": {
+    "gateway": { "enum": ["Buygoods", "Pagamerican"] },
+    "report_date": { "type": "string", "format": "date" },
+    "currency": { "const": "USD" },
+    "base": { "$ref": "#/$defs/fonte", "description": "Fonte de referência; as demais são comparadas contra ela." },
+    "tolerancia": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Diferença absoluta (USD) até a qual dois valores contam como iguais."
+    },
+    "fontes": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Arquivo de cada fonte usado no diff; null quando a fonte não tinha JSON para o dia.",
+      "properties": {
+        "web": { "type": ["string", "null"] },
+        "api": { "type": ["string", "null"] },
+        "lake": { "type": ["string", "null"] }
+      }
+    },
+    "contexto": {
+      "type": "object",
+      "description": "Notas para quem interpreta o diff: definição do dia e diferenças já conhecidas por fonte.",
+      "additionalProperties": false,
+      "properties": {
+        "web": { "type": "string" },
+        "api": { "type": "string" },
+        "lake": { "type": "string" }
+      }
+    },
+    "resumo": {
+      "type": "object",
+      "description": "Uma entrada por fonte comparada (todas menos a base).",
+      "propertyNames": { "$ref": "#/$defs/fonte" },
+      "additionalProperties": { "$ref": "#/$defs/resumo_fonte" }
+    },
+    "contas": {
+      "type": "object",
+      "description": "Só contas com alguma divergência ou ausência. Chave = slug da conta.",
+      "propertyNames": { "$ref": "#/$defs/slug" },
+      "additionalProperties": { "$ref": "#/$defs/conta" }
+    }
+  },
+  "$defs": {
+    "fonte": { "enum": ["web", "api", "lake"] },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
+    "campo": {
+      "enum": [
+        "gross_sales",
+        "shipping_and_handling",
+        "commissions",
+        "refunds",
+        "chargebacks",
+        "commission_voids",
+        "affiliate_epo",
+        "taxes",
+        "aov",
+        "epo",
+        "net_sales"
+      ]
+    },
+    "resumo_fonte": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contas_comparadas", "contas_iguais", "faltando_na_fonte", "extra_na_fonte", "campos"],
+      "properties": {
+        "contas_comparadas": { "type": "integer", "minimum": 0, "description": "Contas presentes na base e na fonte." },
+        "contas_iguais": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Contas comparadas com todos os campos dentro da tolerância."
+        },
+        "faltando_na_fonte": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "description": "Contas da base que a fonte não trouxe (possível perda de dado)."
+        },
+        "extra_na_fonte": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "description": "Contas que só a fonte trouxe (ex.: contas secundárias fora do painel)."
+        },
+        "campos": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/$defs/campo" },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["iguais", "divergentes", "total_base", "total_fonte", "delta"],
+            "properties": {
+              "iguais": { "type": "integer", "minimum": 0 },
+              "divergentes": { "type": "integer", "minimum": 0 },
+              "total_base": { "type": "number", "description": "Soma do campo na base, só nas contas comparadas." },
+              "total_fonte": { "type": "number", "description": "Soma do campo na fonte, só nas contas comparadas." },
+              "delta": { "type": "number", "description": "total_fonte − total_base." }
+            }
+          }
+        }
+      }
+    },
+    "conta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["account_name", "status", "campos"],
+      "properties": {
+        "account_name": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "object",
+          "description": "Situação da conta em cada fonte comparada.",
+          "propertyNames": { "$ref": "#/$defs/fonte" },
+          "additionalProperties": { "enum": ["igual", "divergente", "faltando_na_fonte", "extra_na_fonte"] }
+        },
+        "campos": {
+          "type": "object",
+          "description": "Só campos fora da tolerância em alguma fonte; valor de cada fonte (null = conta ausente nela).",
+          "propertyNames": { "$ref": "#/$defs/campo" },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "web": { "type": ["number", "null"] },
+              "api": { "type": ["number", "null"] },
+              "lake": { "type": ["number", "null"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Diff entre fontes por gateway e dia (dashboard, formato longo)",
+  "description": "Lista plana: uma linha por conta × campo × fonte comparada, incluindo as iguais, para filtrar e agregar (taxa de acerto, delta por campo, por conta, por dia). Cada linha é autossuficiente.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "gateway",
+      "report_date",
+      "conta",
+      "account_name",
+      "campo",
+      "fonte",
+      "base",
+      "valor",
+      "valor_base",
+      "delta",
+      "delta_pct",
+      "status"
+    ],
+    "properties": {
+      "gateway": { "enum": ["Buygoods", "Pagamerican"] },
+      "report_date": { "type": "string", "format": "date" },
+      "conta": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$", "description": "Slug da conta." },
+      "account_name": { "type": "string", "minLength": 1 },
+      "campo": {
+        "enum": [
+          "gross_sales",
+          "shipping_and_handling",
+          "commissions",
+          "refunds",
+          "chargebacks",
+          "commission_voids",
+          "affiliate_epo",
+          "taxes",
+          "aov",
+          "epo",
+          "net_sales"
+        ]
+      },
+      "fonte": { "enum": ["web", "api", "lake"], "description": "Fonte comparada." },
+      "base": { "enum": ["web", "api", "lake"], "description": "Fonte de referência." },
+      "valor": { "type": ["number", "null"], "description": "Valor na fonte; null se a conta não existe nela." },
+      "valor_base": { "type": ["number", "null"], "description": "Valor na base; null se a conta não existe nela." },
+      "delta": { "type": ["number", "null"], "description": "valor − valor_base; null se algum lado é null." },
+      "delta_pct": {
+        "type": ["number", "null"],
+        "description": "delta / |valor_base| × 100; null se valor_base é 0 ou null."
+      },
+      "status": {
+        "enum": ["igual", "divergente", "faltando_na_fonte", "extra_na_fonte"],
+        "description": "igual = |delta| ≤ tolerância; faltando_na_fonte = só na base; extra_na_fonte = só na fonte."
+      }
+    }
+  }
+}
