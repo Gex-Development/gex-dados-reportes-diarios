@@ -16,7 +16,7 @@ def _sheet_rows(workbook, name: str) -> list[dict]:
     if name not in workbook.sheetnames:
         return []
     header, *rows = workbook[name].iter_rows(values_only=True)
-    return [dict(zip(header, row)) for row in rows if any(value is not None for value in row)]
+    return [dict(zip(header, row, strict=True)) for row in rows if any(value is not None for value in row)]
 
 
 def build_report(workbook, report_date: date) -> dict:

@@ -32,7 +32,7 @@ def run_query(sql: str) -> list[dict]:
     for page in athena.get_paginator("get_query_results").paginate(QueryExecutionId=execution_id):
         rows.extend([cell.get("VarCharValue") for cell in row["Data"]] for row in page["ResultSet"]["Rows"])
     header, *data = rows
-    return [dict(zip(header, row)) for row in data]
+    return [dict(zip(header, row, strict=True)) for row in data]
 
 
 def accounts_from_rows(rows: list[dict]) -> list[dict]:
