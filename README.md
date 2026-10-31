@@ -1,89 +1,74 @@
-# Relatórios diários BuyGoods e PagAmerican
+<p align="center"><img src="docs/assets/hero.gif" alt="Painel, API e lake: um JSON por conta" width="100%"></p>
 
-Run the browser-based BuyGoods Master Accounts export (default: yesterday in GMT-4, the BuyGoods day):
+# Relatórios Diários de Gateways
 
-```bash
-make buygoods
-make buygoods DATE=2026-10-27
-```
+Um JSON diário em USD por conta: BuyGoods e PagAmerican, cada um com Painel Web, API e Lake canônico, mais um diff contra o painel.
 
-Run tests with `make test` and lint with `make lint` (ruff check + ruff format for Python, prettier for md/json). Enable detailed logs with `make buygoods DEBUG=1`. Override output root with `make buygoods OUTPUT_ROOT=/tmp/reports`. Every target accepts `DATE=AAAA-MM-DD`; without it, the default is the last full day in the gateway's clock (BuyGoods GMT-4, PagAmerican UTC), not the machine's. The panel formula, schema check and atomic write live in `src/common/report.py`; the Athena client shared by both lakes in `src/common/athena.py`. `.gitignore` keeps `.env`, `credentials/` and `exports/` (panel files carry customer PII) out of version control. After `npm install`, git hooks format staged files (ruff, prettier) and reject commit messages outside Conventional Commits (commitlint).
+![Python][badge-python] ![uv][badge-uv] ![Playwright][badge-playwright] ![AWS Athena][badge-athena] ![Conventional Commits][badge-commits]
 
-Browser automation lives in `src/scripts/extracao_diaria_buygoods_web.py`. It reads credentials and `BUYGOODS_URL_CONTA_2` from `.env`, sets the panel's Custom Range to the requested day, reuses an export already created for the same date (and checks a new one covers that day), and saves the spreadsheet under `exports/buygoods/web/AAAA/MM/master_accounts_AAAA-MM-DD.xls` (preserving `.xls` or `.xlsx` extension) plus JSON at the same path with `.json` extension. Every JSON in this project (BuyGoods web/API/lake and PagAmerican) follows `schemas/daily_report.schema.json`; the BuyGoods web JSON carries the same fields as the API JSON: Visitors, Conversion Rate, EPC and Affiliate EPC stay only in the spreadsheet, and rows whose metrics are all zero are omitted. The `Total` row is excluded, account keys use lowercase ASCII slugs, and duplicate slugs fail rather than overwrite data. Requires `uvx` and Google Chrome. Logs are INFO by default; `DEBUG=1` adds browser and export steps.
+<img src="docs/assets/fluxo.svg" alt="Painel Web, API e Lake convergem no contrato único e geram JSON diário e diff contra o painel" width="100%">
 
-## Via API
+## Começo Rápido
 
-```bash
-make buygoods-api            # D-1
-make buygoods-api DATE=2026-10-28
-```
-
-`src/scripts/extracao_diaria_buygoods_api.py` reads every account from `credentials/buygoods_account_tokens.csv` (`account_id`, `account_name`, `token`; never commit it) and writes `exports/buygoods/api/AAAA/MM/master_accounts_AAAA-MM-DD.json` with the same schema and `"source": "api"`. Money comes from the `/transactions.php` ledger `Net` line that closes day D (posted ~08:12 GMT-4 on D+1; before that the run fails). Panel formulas: Gross = sales − fees, Taxes = sale taxes − sale tax refunds, Net = Gross − Commissions − Refunds − Chargebacks − Taxes + Commission Voids. AOV, EPO and Affiliate EPO divide by the order count from `/orders.php` (distinct `user_id`+`sessid2` on D, without cancels or tests; matched the panel in 47/54 accounts, otherwise up to 2 orders high). The API has no Visitors, so the schema leaves out Visitors-based metrics. Only accounts with ledger movement are included.
-
-Refunds = ledger refunds − US$ 1 per refund issued on D (the ledger embeds a $1 refund fee the panel omits; count comes from `/orders.php` filtered by `updated_at`). Against the 2026-10-28 panel export, on the 64 accounts present in both: Taxes, Chargebacks and Commission Voids 64/64 to the cent, Commissions 63/64, Refunds 62/64, Gross 55/64, Net 53/64, AOV 57/64. The API JSON also lists secondary accounts (`… 2`) that the panel login does not show.
-
-## Via lake (Athena)
+Requisitos: `uv`/`uvx`, Google Chrome, Node.js (hooks) e perfil AWS somente leitura `canonico-validador-user` para Athena (`us-east-1`, workgroup `primary`). Configure `.env` com **nomes**, sem publicar valores: `BUYGOODS_LOGIN`, `BUYGOODS_PASSWORD`, `BUYGOODS_URL_CONTA_2`, `PAGAMERICAN_LOGIN`, `PAGAMERICAN_PASSWORD`, `PAGAMERICAN_API_KEY`. BuyGoods API usa ainda `credentials/buygoods_account_tokens.csv` (`account_id`, `account_name`, `token`).
 
 ```bash
-make buygoods-lake            # D-1
-make buygoods-lake DATE=2026-10-28
+npm install                    # ativa hooks locais
+make buygoods DATE=2026-10-28 # exemplo: painel BuyGoods
+make diff GATEWAY=buygoods DATE=2026-10-28 # após gerar web e api/lake
 ```
 
-`src/scripts/extracao_diaria_buygoods_lake.py` runs one Athena query (AWS profile `canonico-validador-user`, workgroup `primary`, database `gex_db_prod_silver`) over the canonical tables `fct_transacoes`, `fct_eventos_pos_venda` and `dim_conta`, and writes `exports/buygoods/lake/AAAA/MM/master_accounts_AAAA-MM-DD.json` with `"source": "lake"`, accounts sorted by name. Day D is GMT-4 (`dt_transacao_utc`/`dt_evento_utc` − 4h, partitions D-1..D+1). Following the `fct_transacoes` contract (canonico-gateways vault), nothing is filtered: platform tests never reach silver, `fl_teste = 1` marks real internal purchases, and cancelled orders remain sales. Each lake column is mapped to the matching ledger field, and the API panel formula is reused:
+| Alvo                                                                  | Resultado                                            |
+| --------------------------------------------------------------------- | ---------------------------------------------------- |
+| `make buygoods` / `make buygoods-api` / `make buygoods-lake`          | JSON BuyGoods; Web também arquiva `.xls` ou `.xlsx`  |
+| `make pagamerican` / `make pagamerican-api` / `make pagamerican-lake` | JSON PagAmerican; Web também arquiva `.xlsx`         |
+| `make diff GATEWAY=buygoods\|pagamerican`                             | Compara API/Lake com Web; gera visões AI e Dashboard |
 
-| Panel field                      | Lake                                                                                                                                                    |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Gross Sales                      | Σ `vl_coletado_usd` − Σ `vl_taxa_gateway_usd`                                                                                                           |
-| Commissions                      | Σ `vl_comissao_afiliado_usd`                                                                                                                            |
-| Refunds                          | Σ `vl_evento_usd` + `vl_evento_iva_usd` of `refund_total`, `refund_parcial`, `alerta_chargeback` (the US$ 1 fee sits in `vl_multa_usd` and is left out) |
-| Chargebacks                      | Σ `vl_evento_usd` + `vl_evento_iva_usd` + `vl_multa_usd` of `chargeback_*`                                                                              |
-| Taxes                            | Σ `vl_iva_usd` − refund IVA (`vl_evento_iva_usd` is an estimate: the sale line's IVA ratio, per the event contract)                                     |
-| Commission Voids                 | not modeled in the lake; approximated by the commission of items charged back on D                                                                      |
-| S&H                              | Σ `vl_frete_cobrado_usd` (already inside Gross; the panel always shows 0)                                                                               |
-| Orders (AOV, EPO, Affiliate EPO) | distinct `id_cliente` on D                                                                                                                              |
+Todos os alvos aceitam `DATE=AAAA-MM-DD` (sem data: último dia completo no relógio do gateway) e `OUTPUT_ROOT=/caminho` (muda a raiz de `exports/`). Os seis alvos de extração aceitam `DEBUG=1`; só `make pagamerican` aceita `HEADED=1` para login manual inicial. Saídas: `exports/<gateway>/<source>/AAAA/MM/`; diff: `exports/<gateway>/diff/AAAA/MM/diff_ai_*.json` e `diff_dashboard_*.json`. Arquivos existentes de extração não são sobrescritos.
 
-Against the 2026-10-28 panel export (64 accounts): Chargebacks 64/64, Gross and Commissions 57/64, Refunds 46/64, Commission Voids 46/64, Taxes 34/64, Net 29/64. The lake lists the same 97 accounts as the API. Refunds match `/orders.php` `refund_amount` to the cent (Vapocept and Gelagen, 449 orders); the gap to the panel is between the ledger and `/orders`, not a lake defect. Known lake limits (vault): late refunds/chargebacks may land after D+1 (BuyGoods incremental is `updated_at` D−7 once a day), synthetic renewal rows `-B00n` carry an inferred date (`fl_data_aproximada = 1`), and the source keeps a single post-sale date per order × product.
+## O JSON
 
-## PagAmerican (web)
+Mesmo contrato [`schemas/daily_report.schema.json`](schemas/daily_report.schema.json) nas seis combinações. Raiz: `gateway`, `report_date`, `currency: USD`, `source` e `contas` (chave slug por conta). **12 campos por conta:**
+
+| Campo                   | Significado                         | Campo           | Significado                      |
+| ----------------------- | ----------------------------------- | --------------- | -------------------------------- |
+| `account_name`          | Nome da conta ou produto            | `gross_sales`   | Vendas após taxa da plataforma   |
+| `shipping_and_handling` | Frete informado, já dentro de Gross | `commissions`   | Comissão de afiliado             |
+| `refunds`               | Reembolsos atribuídos               | `chargebacks`   | Contestações atribuídas          |
+| `commission_voids`      | Comissão estornada                  | `affiliate_epo` | (Comissões − estornos) / pedidos |
+| `taxes`                 | Impostos líquidos                   | `aov`           | Gross / pedidos                  |
+| `epo`                   | Net / pedidos                       | `net_sales`     | Resultado líquido                |
+
+`net_sales = gross_sales − commissions − refunds − chargebacks − taxes + commission_voids`. Pedidos não são campo do JSON; o frete não é subtraído novamente.
+
+## Fontes
+
+| Gateway     | Dia D                                       | Conta                               | Aderência medida ao Painel Web                                                                               |
+| ----------- | ------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| BuyGoods    | GMT-4; Web, API e Lake no mesmo dia         | Conta do painel, CSV ou `dim_conta` | **28/10/2026, 64 em comum:** API 49/64 contas iguais; Lake 18/64. API/Lake têm 33 contas secundárias extras. |
+| PagAmerican | UTC; Web/API pelo checkout, Lake pela venda | Produto front do pedido             | **29/10/2026, 5 em comum:** API 5/5; Lake 3/5. Net Web: US$ 9.142,38, igual ao OnePager.                     |
+
+<img src="docs/assets/dia-d.svg" alt="BuyGoods usa GMT-4; PagAmerican usa UTC, com checkout em D e venda em D+1 separados por fonte" width="100%">
+
+Uma compra PagAmerican aberta às 23:53 de D e paga às 00:02 de D+1 pertence a **D** no Web/API e a **D+1** no Lake. Medições históricas não são aprovação de produção; limites e campos por fonte estão no [Guia Operacional](docs/guia.md).
+
+## Diff
+
+`make diff GATEWAY=pagamerican DATE=2026-10-29` lê JSONs já salvos, sem consultar fontes. Exige Web e pelo menos API ou Lake; compara campo a campo com tolerância de **US$ 0,01**. Status: `igual`, `divergente`, `faltando_na_fonte`, `extra_na_fonte`. `diff_ai_*.json` resume diferenças; `diff_dashboard_*.json` traz uma linha por conta × campo × fonte, inclusive iguais. Diffs podem ser reconstruídos após nova carga.
+
+<img src="docs/assets/diff.svg" alt="Comparação com Web: BuyGoods API 49 de 64 e Lake 18 de 64; PagAmerican API 5 de 5 e Lake 3 de 5" width="100%">
+
+## Desenvolvimento
 
 ```bash
-make pagamerican HEADED=1    # first run: log in on the browser window
-make pagamerican             # next runs, headless (default: yesterday UTC)
-make pagamerican DATE=2026-10-28
+make test # unittest, inclusive seletores Playwright no Chrome local
+make lint # ruff check, ruff format --check e prettier --check
 ```
 
-`src/scripts/extracao_diaria_pagamerican_web.py` opens `business.pagamerican.app/reports`, logs in with `PAGAMERICAN_LOGIN` / `PAGAMERICAN_PASSWORD` from `.env` when the session (`~/.pagamerican-profile`, outside the project) has expired, selects all six datasets (Purchases, Orders, Refunds & Chargebacks, Order Fulfillment, Abandoned Carts, Payouts) and format Excel, and saves `exports/pagamerican/web/AAAA/MM/pagamerican_AAAA-MM-DD.xlsx`. The panel's own periods are relative to the browser clock and its backend keeps only the date of each bound (its Yesterday exports D and D+1 whole), so the script clicks Yesterday only to enable "Generate report" and rewrites the export request to the UTC day D (00:00Z → 23:59Z), for any `DATE` the panel still holds. Before saving, every purchase's `Checkout Initialized At` must fall on D (the panel picks orders by checkout day, so an order opened at 23:53 and paid at 00:02 belongs to D); otherwise nothing is written. A dataset with no rows in the period (often Payouts) gets no sheet. An existing file for the date is never overwritten.
+`npm install` ativa hooks Husky: lint-staged aplica Ruff e Prettier aos arquivos preparados, e commitlint exige mensagens [Conventional Commits](https://www.conventionalcommits.org/pt-br/v1.0.0/). O guia detalha configuração, cortes, fórmulas, cautelas e reexecução; `.env`, `credentials/` e `exports/` não entram no Git (planilhas podem conter dados pessoais).
 
-Then `src/transformations/pagamerican_report.py` writes `pagamerican_AAAA-MM-DD.json` next to the xlsx (`"gateway": "Pagamerican"`, `"source": "web"`). One account per front product of the order (the product of its `Initial` purchase in `Purchases`); upsells, refunds and chargebacks follow the order. Fields come from the `Orders` sheet: Gross = Order Amount − Creator Platform Fee, Commissions = Affiliation Amount, Taxes = Creator Tax, orders = rows; Refunds and Chargebacks = absolute `Refundamount` / `chargebackamount` from `Refunds&Chargebacks`. Net uses the BuyGoods formula and the sum over accounts matches the OnePager NET REVENUE (2026-10-29: 9,142.38). S&H and Commission Voids are 0 (not in the export). Unlike BuyGoods, refunds and chargebacks belong to the day's orders whatever their refund date, so they grow if the same day is exported again later.
-
-## PagAmerican (API)
-
-```bash
-make pagamerican-api                    # D-1 (UTC)
-make pagamerican-api DATE=2026-10-29
-```
-
-Set `PAGAMERICAN_API_KEY` in the environment or `.env`. The read-only Data API v1 script writes `exports/pagamerican/api/AAAA/MM/pagamerican_AAAA-MM-DD.json` (`"gateway": "Pagamerican"`, `"source": "api"`) without overwriting an existing report. Orders from UTC checkout day D (`checkoutInitializedAt`) are grouped by the `front` purchase's product; upsells stay with their order. API date filters use order creation, so the script reads D and D+1 and selects checkout D. Gross = `amountTransaction` − `amountCreatorPlatformFee`, commissions = `amountAffiliation`, taxes = `amountCreatorTax`, and refunds/chargebacks = `amountRefundedTotal` on D's orders, including later events available through today. `refundSource=alerta` on `/refunds` is not double-counted; chargeback alerts on `/chargebacks` are money returned and counted as chargebacks (matched the 2026-10-29 web export). S&H and Commission Voids are zero. The API retains roughly 10 days of data; historical re-extractions can fail or miss later events. The script rejects incomplete pagination rather than publishing a partial report.
-
-## PagAmerican (lake)
-
-```bash
-make pagamerican-lake                   # D-1 (UTC)
-make pagamerican-lake DATE=2026-10-29
-```
-
-`src/scripts/extracao_diaria_pagamerican_lake.py` uses the shared lake client `src/common/athena.py` (profile `canonico-validador-user`, workgroup `primary`, `gex_db_prod_silver`) and writes `exports/pagamerican/lake/AAAA/MM/pagamerican_AAAA-MM-DD.json` (`"source": "lake"`). PagAmerican is UTC at the source, so day D is `dt_dia = D`. One account per front product of the order (`cd_tipo_item = 'front'` within `id_grupo_pedido`; an order without front fails the run). Gross = Σ `vl_coletado_usd` − Σ `vl_taxa_gateway_usd`, Commissions = Σ `vl_comissao_afiliado_usd`, Taxes = Σ `vl_iva_usd`, S&H = Σ `vl_frete_cobrado_usd` (informative), orders = distinct `id_grupo_pedido`; Refunds = `refund_*` events (value + IVA) and Chargebacks = `chargeback_*` + `alerta_chargeback` (value + IVA + fine) of D's orders, any event date. Commission Voids = 0. The canonico-gateways vault keeps PagAmerican in onboarding (`production_acceptance=false`). On 2026-10-29 four accounts match the web JSON to the cent; SodaPeak differs by one order created 00:02Z on D whose checkout opened on D−1: the lake dates it by the sale, the panel by the checkout (known difference).
-
-## Diff between sources
-
-```bash
-make diff GATEWAY=buygoods DATE=2026-10-28
-make diff GATEWAY=pagamerican            # D-1
-```
-
-`src/scripts/diff_fontes.py` reads the existing web/api/lake JSONs of one gateway and day (no network), compares api and lake against `web` with a US$ 0.01 tolerance, and writes two files to `exports/<gateway>/diff/AAAA/MM/`, each validated against its schema:
-
-- `diff_ai_AAAA-MM-DD.json` (`schemas/diff_ai.schema.json`): summary per source (accounts compared/equal, `faltando_na_fonte` = accounts the source lacks, `extra_na_fonte` = accounts only the source has, per-field equal/divergent counts and totals), plus only divergent or missing accounts with every source's value side by side, and a `contexto` note per source with its day definition and known differences.
-- `diff_dashboard_AAAA-MM-DD.json` (`schemas/diff_dashboard.schema.json`): flat list, one row per account × field × compared source, equal rows included (`valor`, `valor_base`, `delta`, `delta_pct`, `status`).
-
-The web JSON is required (it is the base) plus at least one of api/lake. Diffs are derived data and are rebuilt on every run (e.g. after the lake lands).
+[badge-python]: https://img.shields.io/badge/Python-1e6fd9?style=for-the-badge&logo=python&logoColor=white
+[badge-uv]: https://img.shields.io/badge/uv-38bdf8?style=for-the-badge&logo=uv&logoColor=black
+[badge-playwright]: https://img.shields.io/badge/Playwright-34d399?style=for-the-badge&logo=playwright&logoColor=black
+[badge-athena]: https://img.shields.io/badge/AWS_Athena-1e6fd9?style=for-the-badge&logo=amazonaws&logoColor=white
+[badge-commits]: https://img.shields.io/badge/Conventional_Commits-26272d?style=for-the-badge&logo=conventionalcommits&logoColor=white

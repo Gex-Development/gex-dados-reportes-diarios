@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="535" viewBox="0 0 1200 535" role="img" aria-labelledby="diff-title diff-desc">
+  <title id="diff-title">Comparação das fontes com o painel web</title>
+  <desc id="diff-desc">O painel web é a base. Em 28/10/2026, BuyGoods teve 49 de 64 contas iguais na API e 18 de 64 no lake, com 33 contas secundárias extras. Em 29/10/2026, PagAmerican teve 5 de 5 na API e 3 de 5 no lake.</desc>
+  <defs><linearGradient id="diff-bg" x2="1" y2="1"><stop stop-color="#07204a"/><stop offset=".5" stop-color="#030a1a"/><stop offset="1" stop-color="#000000"/></linearGradient></defs>
+  <style>
+    text{font-family:Geist,Inter,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;fill:#f4f4f5}
+    .eyebrow,.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace}.eyebrow{font-size:12px;letter-spacing:.1em;fill:#7fc3ef}.title{font-size:30px;font-weight:500;letter-spacing:-.03em}.label{font-size:19px;font-weight:600}.small{font-size:14px}.muted{fill:#a1a1aa}
+    .positive{fill:#34d399}.negative{fill:#f87171}.warning{fill:#fcd34d}
+    .reveal{opacity:0;animation:diff-in .5s ease-out forwards}.r2{animation-delay:.4s}.r3{animation-delay:.85s}
+    .bar{transform-box:fill-box;transform-origin:left center;animation:diff-fill 1s cubic-bezier(.2,.8,.2,1) forwards}.b1{transform:scaleX(0);animation-delay:1s;--end:.765625}.b2{transform:scaleX(0);animation-delay:1.3s;--end:.28125}.b3{transform:scaleX(0);animation-delay:1.6s;--end:1}.b4{transform:scaleX(0);animation-delay:1.9s;--end:.6}
+    @keyframes diff-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}@keyframes diff-fill{to{transform:scaleX(var(--end))}}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;animation:none}.bar{animation:none;transform:scaleX(var(--end))}}
+  </style>
+  <rect x="1" y="1" width="1198" height="533" rx="22" fill="url(#diff-bg)" stroke="#26272d" stroke-width="2"/>
+  <text class="eyebrow" x="42" y="43">• RECONCILIAÇÃO DIÁRIA</text><text class="title" x="42" y="84">Painel Web é a base.</text>
+  <text class="small muted" x="42" y="114">API e Lake são comparados por conta e campo. Barras mostram contas inteiramente iguais.</text>
+  <g class="reveal">
+    <rect x="42" y="139" width="1116" height="64" rx="15" fill="#131417" stroke="#26272d"/>
+    <text class="eyebrow" x="65" y="164">• BASE</text><text class="label" x="65" y="188">Web</text>
+    <path d="M199 171H288M491 171H572" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 6"/>
+    <text class="label" x="317" y="180">API</text><text class="label" x="602" y="180">Lake</text>
+    <text class="small muted" x="826" y="180">Tolerância por campo: US$ 0,01</text>
+  </g>
+  <g class="reveal r2">
+    <text class="eyebrow" x="42" y="246">• BUYGOODS · 28/10/2026 · 64 CONTAS EM COMUM</text>
+    <text class="small" x="42" y="278">API</text><text class="small" x="42" y="316">Lake</text>
+    <rect x="208" y="260" width="740" height="21" rx="7" fill="#26272d"/><rect x="208" y="298" width="740" height="21" rx="7" fill="#26272d"/>
+    <rect class="bar b1" x="208" y="260" width="740" height="21" rx="7" fill="#34d399"/><rect class="bar b2" x="208" y="298" width="740" height="21" rx="7" fill="#38bdf8"/>
+    <text class="mono" x="979" y="277">49/64</text><text class="mono" x="979" y="315">18/64</text>
+    <text class="small muted" x="208" y="345">API e Lake incluem 33 contas secundárias fora do login do painel.</text>
+  </g>
+  <g class="reveal r3">
+    <text class="eyebrow" x="42" y="393">• PAGAMERICAN · 29/10/2026 · 5 CONTAS EM COMUM</text>
+    <text class="small" x="42" y="422">API</text><text class="small" x="42" y="458">Lake</text>
+    <rect x="208" y="404" width="740" height="21" rx="7" fill="#26272d"/><rect x="208" y="440" width="740" height="21" rx="7" fill="#26272d"/>
+    <rect class="bar b3" x="208" y="404" width="740" height="21" rx="7" fill="#34d399"/><rect class="bar b4" x="208" y="440" width="740" height="21" rx="7" fill="#38bdf8"/>
+    <text class="mono" x="979" y="421">5/5</text><text class="mono" x="979" y="457">3/5</text>
+  </g>
+  <g class="reveal r3">
+    <rect x="42" y="484" width="116" height="28" rx="8" fill="#123526"/><text class="small positive" x="53" y="503">igual</text>
+    <rect x="169" y="484" width="146" height="28" rx="8" fill="#3a1522"/><text class="small negative" x="181" y="503">divergente</text>
+    <rect x="326" y="484" width="195" height="28" rx="8" fill="#393018"/><text class="small warning" x="337" y="503">faltando_na_fonte</text>
+    <rect x="532" y="484" width="183" height="28" rx="8" fill="#202126"/><text class="small muted" x="543" y="503">extra_na_fonte</text>
+  </g>
+</svg>

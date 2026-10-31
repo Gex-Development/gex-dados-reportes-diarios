@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="490" viewBox="0 0 1200 490" role="img" aria-labelledby="fluxo-title fluxo-desc">
+  <title id="fluxo-title">Das três fontes ao relatório diário e ao diff</title>
+  <desc id="fluxo-desc">Painel Web, API e Lake dos dois gateways convergem no contrato de 12 campos. O resultado é um JSON por conta e dia, comparado ao painel em dois arquivos de diff.</desc>
+  <defs>
+    <linearGradient id="fluxo-bg" x2="1" y2="1"><stop stop-color="#07204a"/><stop offset=".45" stop-color="#030a1a"/><stop offset="1" stop-color="#000000"/></linearGradient>
+    <marker id="fluxo-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#38bdf8"/></marker>
+  </defs>
+  <style>
+    text{font-family:Geist,Inter,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;fill:#f4f4f5}
+    .eyebrow,.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;letter-spacing:.08em}
+    .eyebrow{font-size:12px;fill:#7fc3ef}.muted{fill:#a1a1aa}.small{font-size:14px}.label{font-size:21px;font-weight:600}.title{font-size:30px;font-weight:500;letter-spacing:-.03em}
+    .reveal{opacity:0;animation:fluxo-in .55s ease-out forwards}.r2{animation-delay:.35s}.r3{animation-delay:.7s}.r4{animation-delay:1.05s}
+    .flow{stroke-dasharray:7 12;animation:fluxo-run 3.6s linear infinite}
+    @keyframes fluxo-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fluxo-run{to{stroke-dashoffset:-38}}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;animation:none;transform:none}.flow{animation:none}}
+  </style>
+  <rect x="1" y="1" width="1198" height="488" rx="22" fill="url(#fluxo-bg)" stroke="#26272d" stroke-width="2"/>
+  <text class="eyebrow" x="40" y="42">• PIPELINE DIÁRIO</text>
+  <text class="title" x="40" y="83">Seis extrações. Um contrato.</text>
+  <text class="muted small" x="40" y="111">Cada fonte preserva seu corte temporal; o formato de saída permanece igual.</text>
+  <!-- Fixed connector bases remain legible before, during and after motion. -->
+  <g fill="none" stroke="#526579" stroke-width="2">
+    <path d="M267 204H311Q319 204 319 212V286Q319 294 327 294H365"/>
+    <path d="M267 294H365"/>
+    <path d="M267 384H311Q319 384 319 376V302Q319 294 327 294H365"/>
+    <path d="M655 294H712" marker-end="url(#fluxo-arrow)"/>
+    <path d="M919 294H974" marker-end="url(#fluxo-arrow)"/>
+  </g>
+  <g class="flow" fill="none" stroke="#38bdf8" stroke-width="2" opacity=".65" aria-hidden="true">
+    <path d="M267 204H311Q319 204 319 212V286Q319 294 327 294H365"/>
+    <path d="M267 294H365"/>
+    <path d="M267 384H311Q319 384 319 376V302Q319 294 327 294H365"/>
+    <path d="M655 294H704"/><path d="M919 294H966"/>
+  </g>
+  <g class="reveal">
+    <text class="eyebrow" x="40" y="154">• DUAS ORIGENS POR FONTE</text>
+    <rect x="40" y="172" width="227" height="65" rx="14" fill="#131417" stroke="#2e506f"/>
+    <rect x="40" y="262" width="227" height="65" rx="14" fill="#131417" stroke="#2e506f"/>
+    <rect x="40" y="352" width="227" height="65" rx="14" fill="#131417" stroke="#2e506f"/>
+    <text class="label" x="61" y="201">Painel Web</text><text class="muted small" x="61" y="222">BuyGoods · PagAmerican</text>
+    <text class="label" x="61" y="291">API</text><text class="muted small" x="61" y="312">BuyGoods · PagAmerican</text>
+    <text class="label" x="61" y="381">Lake</text><text class="muted small" x="61" y="402">Athena · Silver canônico</text>
+  </g>
+  <g class="reveal r2">
+    <rect x="365" y="204" width="290" height="182" rx="20" fill="#131417" stroke="#1e6fd9" stroke-width="2"/>
+    <text class="eyebrow" x="391" y="237">• NORMALIZAÇÃO</text>
+    <text class="label" x="391" y="275">Contrato Único</text>
+    <text class="muted small" x="391" y="302">daily_report.schema.json · 12 campos</text>
+    <path d="M391 323H629" stroke="#26272d"/>
+    <text class="mono" x="391" y="343" font-size="12">Net = Gross − Commissions</text>
+    <text class="mono" x="391" y="361" font-size="12">− Refunds − Chargebacks − Taxes</text>
+    <text class="mono" x="391" y="379" font-size="12">+ Commission Voids</text>
+  </g>
+  <g class="reveal r3">
+    <rect x="712" y="246" width="207" height="96" rx="18" fill="#131417" stroke="#38bdf8"/>
+    <text class="eyebrow" x="732" y="275">• SAÍDA</text>
+    <text class="label" x="732" y="303">JSON por Conta</text>
+    <text class="muted small" x="732" y="326">e Dia · USD</text>
+  </g>
+  <g class="reveal r4">
+    <rect x="974" y="246" width="184" height="96" rx="18" fill="#131417" stroke="#34d399"/>
+    <text class="eyebrow" x="994" y="275">• COMPARAÇÃO</text>
+    <text class="label" x="994" y="303">Diff vs Painel</text>
+    <text class="muted small" x="994" y="326">API · Lake</text>
+  </g>
+  <text class="muted small" x="40" y="458">Saídas: exports/&lt;gateway&gt;/&lt;source&gt;/AAAA/MM/</text>
+</svg>
