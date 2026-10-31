@@ -11,3 +11,7 @@ exports/
 __pycache__/
 .DS_Store
 node_modules/
+
+# HyperFrames check/render scratch (the hero source stays in docs/hero/)
+docs/hero/.hyperframes/
+docs/hero/renders/
