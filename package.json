@@ -5,11 +5,15 @@
   "description": "Daily gateway reports (BuyGoods, PagAmerican)",
   "scripts": {
     "prepare": "husky",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --write . && uvx ruff format src tests",
+    "format:check": "prettier --check . && uvx ruff format --check src tests"
   },
   "lint-staged": {
-    "*.{md,json,yml,yaml,mjs,js}": "prettier --write"
+    "*.{md,json,yml,yaml,mjs,js}": "prettier --write",
+    "*.py": [
+      "uvx ruff check --fix",
+      "uvx ruff format"
+    ]
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",
